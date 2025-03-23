@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    func fetcTeams() async throws -> [Team]
+    func fetchTeams() async throws -> [Team]
     func fetchDrivers() async throws -> [Driver]
     func fetchRaceCalendar() async throws -> [Race]
     func fetchNews() async throws -> [News]
@@ -16,10 +16,10 @@ protocol NetworkServiceProtocol {
 
 struct NetworkService: NetworkServiceProtocol {
    
-    func fetcTeams() async throws -> [Team] {
+    func fetchTeams() async throws -> [Team] {
         let url = URL(string: "https://ergast.com/api/f1/current/constructors.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(TeamsResponse.self, from: data)
+        let response = try JSONDecoder().decode(TeamResponse.self, from: data)
         
         return response.teams
         
@@ -28,7 +28,7 @@ struct NetworkService: NetworkServiceProtocol {
     func fetchDrivers() async throws -> [Driver] {
         let url = URL(string: "https://ergast.com/api/f1/current/drivers.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(DriversResponse.self, from: data)
+        let response = try JSONDecoder().decode(DriverResponse.self, from: data)
         
         return response.drivers
     }
@@ -42,7 +42,7 @@ struct NetworkService: NetworkServiceProtocol {
     }
     
     func fetchNews() async throws -> [News] {
-        let url = URL(string: "https://newsapi.org/v2/everything?q=formula1&apiKey=YOUR_API_KEY")!
+        let url = URL(string: "https://newsapi.org/v2/everything?q=formula1&apiKey=\(APIKeys.newsApiKey)&language=en")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(NewsResponse.self, from: data)
         
@@ -58,10 +58,10 @@ struct DriverResponse: Codable {
     let drivers: [Driver]
 }
 
-struct RaceResponse: Codable {
+struct RaceCalendarResponse: Codable {
     let races: [Race]
 }
 
 struct NewsResponse: Codable {
-    let news: [News]
+    let articles: [News]
 }

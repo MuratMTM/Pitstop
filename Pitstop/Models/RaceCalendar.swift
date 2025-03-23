@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Race: Identifiable, Decodable {
+struct RaceCalendar: Identifiable, Codable {
     let id: String
     let grandPrix: String
     let date: String
