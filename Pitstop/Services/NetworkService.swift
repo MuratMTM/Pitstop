@@ -10,7 +10,7 @@ import Foundation
 protocol NetworkServiceProtocol {
     func fetchTeams() async throws -> [Team]
     func fetchDrivers() async throws -> [Driver]
-    func fetchRaceCalendar() async throws -> [Race]
+    func fetchRaceCalendar() async throws -> [RaceCalendar]
     func fetchNews() async throws -> [News]
 }
 
@@ -33,7 +33,7 @@ struct NetworkService: NetworkServiceProtocol {
         return response.drivers
     }
     
-    func fetchRaceCalendar() async throws -> [Race] {
+    func fetchRaceCalendar() async throws -> [RaceCalendar] {
         let url = URL(string: "https://ergast.com/api/f1/current.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(RaceCalendarResponse.self, from: data)
@@ -59,7 +59,7 @@ struct DriverResponse: Codable {
 }
 
 struct RaceCalendarResponse: Codable {
-    let races: [Race]
+    let races: [RaceCalendar]
 }
 
 struct NewsResponse: Codable {
