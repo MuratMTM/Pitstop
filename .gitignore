@@ -1,2 +1,4 @@
 # API Keys
 Pitstop/Utilities/APIKeys.swift
+# Xcode user state
+*.xcuserstate
