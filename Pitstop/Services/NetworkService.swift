@@ -42,7 +42,7 @@ struct NetworkService: NetworkServiceProtocol {
     }
     
     func fetchNews() async throws -> [News] {
-        let url = URL(string: "https://newsapi.org/v2/everything?q=formula1&apiKey=\(APIKeys.newsApiKey)&language=en")!
+        let url = URL(string: "https://newsapi.org/v2/everything?q=formula1&apiKey=\(APIKeys.newsAPIKey)&language=en")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try JSONDecoder().decode(NewsResponse.self, from: data)
         

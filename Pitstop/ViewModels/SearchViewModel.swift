@@ -22,8 +22,8 @@ class SearchViewModel: ObservableObject {
                 $0.name.lowercased().contains(searchText.lowercased())
             }
             + raceCalendar.filter {
-                $0.round.lowercased().contains(searchText.lowercased()) ||
-                $0.raceName.lowercased().contains(searchText.lowercased())
+                $0.id.lowercased().contains(searchText.lowercased()) ||
+                $0.grandPrix.lowercased().contains(searchText.lowercased())
             }
         }
         
