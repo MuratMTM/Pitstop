@@ -3,10 +3,11 @@
 import SwiftUI
 
 struct TeamCardView: View {
+    var team: Team
     var body: some View {
         ZStack {
             RoundedRectangle(cornerSize: CGSize(width: 15, height: 15))
-                .fill(Color.yellow)
+                .fill(TeamColorManager.color(for: team.name))
                 .frame(width: 330, height: 150)
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
@@ -19,7 +20,7 @@ struct TeamCardView: View {
             VStack{
                 HStack(alignment: .center ,spacing:40){
                     
-                    Text("2")
+                    Text(team.rank)
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -30,7 +31,7 @@ struct TeamCardView: View {
                                 .frame(width: 50,height: 50))
                     
                     
-                    Text("Ferrari")
+                    Text(team.name)
                         .font(.title)
                         .foregroundColor(.black)
                         .fontWeight(.bold)
@@ -38,17 +39,25 @@ struct TeamCardView: View {
                         .monospaced(true)
                     
                     
-                    Image("ferrari")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(10)
+                    if let url = URL(string: team.logoURL){
+                        AsyncImage(url: url){
+                            image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(10)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
                     
                 }
                 
                 
                 
                 HStack(spacing:30){
-                    Text("127\nPTS")
+                    Text("1\(team.points)\nPTS")
                         .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(Color.red)
@@ -62,27 +71,46 @@ struct TeamCardView: View {
                             
                         )
                     
-                    Image("ferrari--sf25")
-                        .resizable()
-                        .frame(width: 160, height: 50)
-                        .cornerRadius(10)
+                    if let carImageURL = URL(string: team.carImageURL) {
+                        AsyncImage(url: carImageURL) {
+                            image in
+                            image
+                                .resizable()
+                                .frame(width: 160, height: 40)
+                                .cornerRadius(10)
+                            
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
                     
                     
-                    Image("italy")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .padding(.vertical,10)
+                    if let originFlagURL = URL(string: team.originFlag) {
+                        AsyncImage(url: originFlagURL) {
+                            image in
+                            image
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .padding(.vertical, 10)
+                            
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
                 }
             }
             
             
         }
         .frame(width: 330, height: 150)
+        .background(TeamColorManager.color(for: team.name)) // Kart rengi dinamik
+        
         
         
     }
 }
 
-#Preview {
-    TeamCardView()
-}
+//#Preview {
+//    TeamCardView(team: <#Team#>)
+//}
+
