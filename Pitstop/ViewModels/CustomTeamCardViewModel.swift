@@ -7,4 +7,7 @@ struct CustomTeamCardViewModel: Identifiable {
     let points: Int
     let teamLogo: String
     let carImageName: String
+    let rank: String
+    let countryFlag: String
+    
 }

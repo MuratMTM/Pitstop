@@ -8,7 +8,7 @@ struct CustomTeamListView: View {
             VStack(spacing: 16) {
                 ForEach(viewModel.teams) { team in
                     CustomTeamCardView(viewModel: team)
-                        .padding(.horizontal)
+                        .padding(.all)
                 }
             }
         }
@@ -19,3 +19,4 @@ struct CustomTeamListView: View {
 #Preview {
     CustomTeamListView()
 }
+                                    

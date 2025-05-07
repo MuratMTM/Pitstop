@@ -27,7 +27,9 @@ extension Team {
             name: self.name,
             points: Int(self.points) ?? 0,
             teamLogo: self.logoURL,
-            carImageName: self.carImageURL
+            carImageName: self.carImageURL,
+            rank: self.rank,
+            countryFlag: self.originFlag
         )
     }
 }
