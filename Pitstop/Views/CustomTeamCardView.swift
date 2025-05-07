@@ -5,56 +5,42 @@ struct CustomTeamCardView: View {
 
     var body: some View {
         ZStack {
-            let bgColor = TeamColorManager.backgroundColor(for: viewModel.name)
-            let textColor = TeamColorManager.textColor(for: bgColor)
-
-            RoundedRectangle(cornerRadius: 15)
-                .fill(bgColor)
-                .frame(height: 170)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color(.systemGray6))
                 .shadow(radius: 5)
 
-            VStack {
-                HStack(alignment: .center, spacing: 16) {
-                    Text(viewModel.name.prefix(1)) // örnek olarak ilk harf
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(width: 50, height: 50)
-                        .background(Circle().fill(textColor.opacity(0.2)))
+            HStack(spacing: 16) {
+                Image(viewModel.teamLogo)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                    .padding()
 
+                VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.name)
-                        .font(.title2)
-                        .foregroundColor(textColor)
-                        .fontWeight(.bold)
+                        .font(.headline)
+                        .foregroundColor(.primary)
 
-                    Spacer()
-
-                    Image(viewModel.teamLogo)
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(8)
-                }
-
-                HStack(spacing: 20) {
-                    Text("\(viewModel.points)\nPTS")
+                    Text("\(viewModel.points) Puan")
                         .font(.subheadline)
-                        .fontWeight(.bold)
-                        .foregroundColor(textColor)
-                        .multilineTextAlignment(.center)
-
-                    Image(viewModel.carImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 160, height: 40)
+                        .foregroundColor(.secondary)
                 }
 
                 Spacer()
+
+                Image(viewModel.carImageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 60)
+                    .padding(.trailing, 8)
             }
             .padding()
         }
-        .cornerRadius(15)
+        .frame(height: 100)
+        .padding(.horizontal)
     }
 }
+
 
 
 

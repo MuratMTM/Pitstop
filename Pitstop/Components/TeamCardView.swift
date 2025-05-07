@@ -7,7 +7,7 @@ struct TeamCardView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerSize: CGSize(width: 15, height: 15))
-                .fill(TeamColorManager.color(for: team.name))
+                .fill(TeamColorManager.backgroundColor(for: team.name))
                 .frame(width: 330, height: 150)
                 .overlay(
                     RoundedRectangle(cornerRadius: 15)
@@ -103,7 +103,7 @@ struct TeamCardView: View {
             
         }
         .frame(width: 330, height: 150)
-        .background(TeamColorManager.color(for: team.name)) // Kart rengi dinamik
+        .background(TeamColorManager.backgroundColor(for: team.name)) // Kart rengi dinamik
         
         
         
