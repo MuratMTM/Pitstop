@@ -20,3 +20,15 @@ struct Team: Identifiable, Codable {
     let drivers: [Driver]
     
 }
+
+extension Team {
+    func toCustomCardViewModel() -> CustomTeamCardViewModel {
+        return CustomTeamCardViewModel(
+            name: self.name,
+            points: Int(self.points) ?? 0,
+            teamLogo: self.logoURL,
+            carImageName: self.carImageURL
+        )
+    }
+}
+

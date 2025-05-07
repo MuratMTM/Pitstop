@@ -1,30 +1,29 @@
-import SwiftUI
+import Foundation
+import SwiftUICore
 
-struct TeamColorManager{
-    static func color(for team: String) -> Color{
+
+
+struct TeamColorManager {
+    static func backgroundColor(for team: String) -> Color {
         switch team {
-        case "RedBull":
-            return .red
-        case "McLaren":
-            return .orange
-        case "Mercedes" :
-            return .gray
-        case "Ferrari" :
-            return .yellow
-        case "Alpine" :
-            return .pink
-        case "Williams" :
-            return .blue
-        case "Haas" :
-            return .black
-        case "Aston Martin" :
-            return .green
-        case "Racing Bulls" :
-            return .white
-        case "Kick Sauber" :
-            return .green
-        default:
-            return .gray
+        case "Red Bull": return Color("#1E1E2F")
+        case "Ferrari": return Color("#DC0000")
+        case "Mercedes": return Color("#C0C0C0")
+        case "McLaren": return Color("#FF8700")
+        case "Aston Martin": return Color("#00665E")
+        case "Alpine": return Color("#0090FF")
+        case "Williams": return Color("")
+        case "Racing Bulls": return Color("#0F1743")
+        case "Haas": return Color("#7F7F7F")
+        case "Kick Sauber": return Color("#00FF87")
+            
+        default: return .gray
         }
+        
+    }
+    
+    static func textColor(for background: Color) -> Color {
+        return background.isDark() ? .white : .black
     }
 }
+

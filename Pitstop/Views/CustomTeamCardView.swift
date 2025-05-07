@@ -1,85 +1,69 @@
-
-
 import SwiftUI
 
 struct CustomTeamCardView: View {
+    let viewModel: CustomTeamCardViewModel
+
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerSize: CGSize(width: 15, height: 15))
-                .fill(.white)
-                .frame(width: 330, height: 150)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color.black, lineWidth: 3)
-                    
-                )
-            VStack{
-                
-                HStack(alignment: .center ,spacing:40){
-                    
-                    Text("3")
+            let bgColor = TeamColorManager.backgroundColor(for: viewModel.name)
+            let textColor = TeamColorManager.textColor(for: bgColor)
+
+            RoundedRectangle(cornerRadius: 15)
+                .fill(bgColor)
+                .frame(height: 170)
+                .shadow(radius: 5)
+
+            VStack {
+                HStack(alignment: .center, spacing: 16) {
+                    Text(viewModel.name.prefix(1)) // örnek olarak ilk harf
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                    
-                        .background(
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 50,height: 50))
-                    
-                    
-                    Text("Red Bull Racing")
-                        .font(.title)
-                        .foregroundColor(.black)
+                        .frame(width: 50, height: 50)
+                        .background(Circle().fill(textColor.opacity(0.2)))
+
+                    Text(viewModel.name)
+                        .font(.title2)
+                        .foregroundColor(textColor)
                         .fontWeight(.bold)
-                        .kerning(3)
-                        .monospaced(true)
-                    
-                    
-                    Image("rb21")
+
+                    Spacer()
+
+                    Image(viewModel.teamLogo)
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .cornerRadius(8)
+                }
+
+                HStack(spacing: 20) {
+                    Text("\(viewModel.points)\nPTS")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(textColor)
+                        .multilineTextAlignment(.center)
+
+                    Image(viewModel.carImageName)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(10)
+                        .frame(width: 160, height: 40)
                 }
-                
-                
+
+                Spacer()
             }
-            HStack(spacing:30){
-                Text("105\nPTS")
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.red)
-                
-                    .background(
-                        Rectangle()
-                            .foregroundColor(.white)
-                            .cornerRadius(5)
-                            .frame(width: 50, height: 40)
-                            .shadow(color:.red,radius:5)
-                        
-                    )
-                
-                Image("rb21")
-                    .resizable()
-                    .frame(width: 160, height: 40)
-                    .cornerRadius(10)
-                
-                
-            }
-            
-            
-            Image("austria")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .padding(.vertical, 10)
-            
-            
-        }.frame(width: 330, height: 150)
+            .padding()
+        }
+        .cornerRadius(15)
     }
 }
 
 
+
 #Preview {
-    CustomTeamCardView()
+    CustomTeamCardView(viewModel: CustomTeamCardViewModel(
+        name: "McLaren",
+        points: 249,
+        teamLogo: "mclaren",
+        carImageName: "mclarenCar"
+    ))
 }
+
