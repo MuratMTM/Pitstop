@@ -110,7 +110,7 @@ struct TeamCardView: View {
     }
 }
 
-#Preview {
-    TeamCardView(team: Team(id: 1, name: "Red Bull Racing", logoURL: "redBull", originFlag: "austria", foundingYear: "2004", history: "Red Bull Racing, sponsorluk anlaşması gereği Oracle Red Bull Racing, kısaca Red Bull veya RBR,Avusturyalı içecek firması Red Bull'un Scuderia AlphaTauri ile birlikte sahibi olduğu ikinci Formula 1 takımıdır.Red Bull takımı 2010 sezonunda, kuruluşunun henüz altıncı yılında, Formula 1 Markalar Şampiyonluğu'na ulaşmış ve bu unvanı kazanan ilk Avusturya takımı olmuştur.", points: "105", rank: "3", carImageURL: "rb21", drivers: redBullDrivers))
-}
+//#Preview {
+//    TeamCardView()
+//}
 
