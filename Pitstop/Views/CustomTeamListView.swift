@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CustomTeamListView: View {
     @StateObject private var viewModel = CustomTeamListViewModel()
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -19,4 +19,5 @@ struct CustomTeamListView: View {
 #Preview {
     CustomTeamListView()
 }
-                                    
+
+
