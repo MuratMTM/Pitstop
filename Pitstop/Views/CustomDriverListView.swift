@@ -6,7 +6,7 @@ struct CustomDriverListView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-               
+                
                 LinearGradient(gradient: Gradient(colors: [.blue.opacity(0.7), .white]), startPoint: .topLeading, endPoint: .bottomTrailing)
                     .edgesIgnoringSafeArea(.all)
                 
