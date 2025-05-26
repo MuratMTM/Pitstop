@@ -42,47 +42,58 @@ struct NewsPageView: View {
                 .frame(height: 270)
 
                 // Bilgi Kutusu
-                let currentItem = viewModel.newsItems[viewModel.selectedIndex]
+            
 
-                VStack(alignment: .center, spacing: 6) {
-                    Text(currentItem.title)
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .foregroundColor(.black)
-                        .lineLimit(3)
-                        .multilineTextAlignment(.center)
-                        .padding()
-
-                    HStack(alignment: .center, spacing: 8) {
-                        Image(currentItem.authorImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
-                            .clipShape(Circle())
-
-                        Text(currentItem.authorName)
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundColor(.gray)
-
-                        Spacer()
-
-                        Text(currentItem.date)
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundColor(.gray)
-                    }
-
-                }
-                .padding()
-                .frame(width: 350)
-                .background(Color.cyan.opacity(0.1))
-                .cornerRadius(30)
-                .shadow(radius: 5)
-
-                NewsDivider()
-                    .padding(.vertical, 10)
+               
             }
 
-            Spacer()
+            
         }
+        
+        let currentItem = viewModel.newsItems[viewModel.selectedIndex]
+
+        VStack(alignment: .center, spacing: 6) {
+            Text(currentItem.title)
+                .font(.system(size: 18, weight: .bold, design: .rounded))
+                .foregroundColor(.black)
+                .lineLimit(3)
+                .multilineTextAlignment(.center)
+                .padding()
+
+            HStack(alignment: .center, spacing: 8) {
+                Image(currentItem.authorImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .clipShape(Circle())
+
+                Text(currentItem.authorName)
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .foregroundColor(.gray)
+
+                Spacer()
+
+                Text(currentItem.date)
+                    .font(.system(size: 12, weight: .medium, design: .rounded))
+                    .foregroundColor(.gray)
+            }
+
+        }
+        .padding()
+        .frame(width: 350)
+        .background(Color.cyan.opacity(0.1))
+        .cornerRadius(30)
+        .shadow(radius: 5)
+        
+        NewsDivider()
+            .padding(.vertical, 10)
+        
+        VStack{
+            List{
+                
+            }
+        }
+        Spacer()
     }
 }
 

@@ -8,3 +8,5 @@ struct NewsItem: Identifiable{
     let authorName: String
     let date: String
 }
+
+
