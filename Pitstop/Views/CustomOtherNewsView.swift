@@ -2,50 +2,45 @@
 import SwiftUI
 
 struct CustomOtherNewsView: View {
-    @StateObject private var viewModel = OtherNewsItemViewModel()
-    var index: Int
+    let newsItem: OtherNewsItem
+    
     var body: some View {
-        VStack{
-            HStack(spacing: 6){
-                Image(viewModel.otherNewsItem[index].imageName)
-                    
-                    .resizable()
-                    .containerShape(RoundedRectangle(cornerSize: CGSize(width: 30, height: 30)))
-                    .shadow(color: Color.blue, radius: 3)
-                    .frame(width: 100, height: 100)
-                    .padding()
-                    
-                    
+        HStack(spacing: 12) {
+            Image(newsItem.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 90, height: 90)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .shadow(color: Color.blue.opacity(0.2), radius: 4, x: 0, y: 3)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                Text(newsItem.title)
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundColor(.primary)
+                    .lineLimit(2)
                 
-                Spacer()
-                VStack(spacing: 6){
-                    Text(viewModel.otherNewsItem[index].title)
-                        .font(.caption)
-                        .foregroundColor(.black)
-                        .bold()
-                        .multilineTextAlignment(.center)
-                        
-                    
-                    Text(viewModel.otherNewsItem[index].description)
-                        .font(.caption2)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-                        
-                    
-                }
+                Text(newsItem.description)
+                    .font(.system(size: 12, weight: .regular, design: .rounded))
+                    .foregroundColor(.gray)
+                    .lineLimit(3)
             }
-           
-        }.frame(width:350,height: 120)
-            .background(Color.gray.opacity(0.1))
-        .shadow(radius: 5)
-        .cornerRadius(10)
-        .padding(.all,10)
-        
-        
+            .padding(.vertical, 10)
+            
+            Spacer()
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity, minHeight: 110)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white.opacity(0.7))
+                .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 2)
+        )
+        .padding(.horizontal)
+        .padding(.bottom, 8)
     }
 }
 
+
 #Preview {
-    CustomOtherNewsView(index: 0)
+    CustomOtherNewsView(newsItem:OtherNewsItemViewModel().otherNewsItem[0])
 }
