@@ -22,8 +22,8 @@ struct DriverDetailView: View {
                         .clipShape(RoundedCorner(radius: 30, corners: [.bottomLeft, .bottomRight]))
                 }
                 
-            }.background(Color.gray)
-                .padding(.bottom,5)
+            }.background( LinearGradient(colors: [.orange, .black], startPoint: .leading, endPoint: .trailing))
+                .padding(.bottom,0)
                 
             
             DriverDetailMainView()
@@ -40,20 +40,47 @@ struct DriverDetailView: View {
 struct DriverDetailMainView: View {
     @State private var selectedTab = "Genel"
     let tabs = ["Genel", "Sonuçlar", "Rekorlar", "Haberler"]
+    @Namespace private var animationNamespace
 
     var body: some View {
         VStack(spacing: 10) {
             
-
-            // 🔵 Segment kontrolü (sekme seçici)
-            Picker("Tab", selection: $selectedTab) {
+            // 🔷 Özel Sportif Segment Kontrol
+            HStack(spacing: 12) {
                 ForEach(tabs, id: \.self) { tab in
-                    Text(tab).tag(tab)
+                    Button {
+                        withAnimation(.spring()) {
+                            selectedTab = tab
+                        }
+                    } label: {
+                        Text(tab)
+                            .font(.system(size: 13, weight: selectedTab == tab ? .bold : .semibold, design: .rounded))
+                            .foregroundColor(selectedTab == tab ? .white : .black)
+                            .padding(.vertical, 16)
+                            .padding(.horizontal, 20)
+                            .background(
+                                ZStack {
+                                    if selectedTab == tab {
+                                        LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing)
+                                            .clipShape(Capsule())
+                                            .matchedGeometryEffect(id: "segment", in: animationNamespace)
+                                            .shadow(color: .purple.opacity(0.9), radius: 8, x: 0, y: 4)
+                                    }
+                                }
+                            )
+                            .clipShape(Capsule())
+                        
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    
                 }
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-
+            
+            .background(Color.secondary.opacity(0.2))
+            .clipShape(Capsule())
+            
+            
             // ⬇️ Sekmeye göre içerik
             VStack {
                 switch selectedTab {
@@ -70,14 +97,13 @@ struct DriverDetailMainView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-            .background(Color(.systemGray6))
+            .background(Color(.black.opacity(0.1)))
             .cornerRadius(15)
-            .shadow(radius: 4)
+            .shadow(radius: 20)
             .padding(.horizontal)
+            .padding(.bottom,5)
             
-            Spacer()
-         
+           
         }
         .navigationTitle("Sürücü Detayları")
     }
@@ -86,3 +112,5 @@ struct DriverDetailMainView: View {
 #Preview {
     DriverDetailView()
 }
+
+

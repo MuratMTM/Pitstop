@@ -5,7 +5,8 @@ struct DriverDetailModel: Identifiable, Codable {
     let baseDriver: Driver
     let biography: String
     let birthDate: String
-    let grandPrixes:[GrandPrixResult]
+    let birthPlace: String
+   let grandPrixes:[GrandPrixResult]
     let lastSeasonStatistics: [String]
     let records: [String]
     let driverNews: [String]

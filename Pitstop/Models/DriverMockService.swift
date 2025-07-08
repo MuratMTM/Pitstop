@@ -8,13 +8,14 @@ struct DriverMockData {
             previewImageUrl: "verstappen_preview",
             name: "Max Verstappen",
             number: "1",
-            championship: "3",
+            championship: "3rd",
             points: "255",
             constructor: "Red Bull Racing",
             originFlag: "netherlands_flag" // Assets’teki bayrak görseli
         ),
         biography: "Max Verstappen is a Dutch racing driver who races for Red Bull Racing in Formula 1. Known for his aggressive style and dominance in recent seasons.",
-        birthDate: "30 September 1997",
+        birthDate: "30/09/1997",
+        birthPlace: "Belçika",
         grandPrixes: [
                     GrandPrixResult(name: "Australian GP", position: "2nd", points: 18),
                    GrandPrixResult(name: "China GP", position: "4th", points: 12),
