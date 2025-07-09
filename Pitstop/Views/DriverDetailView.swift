@@ -87,7 +87,7 @@ struct DriverDetailMainView: View {
                 case "Genel":
                     GeneralDriverInfoTab()
                 case "Sonuçlar":
-                    SeasonView()
+                    GrandPrixListView(grandPrixes: DriverMockData.verstappenDetail.grandPrixes)
                 case "Rekorlar":
                     DriverCareerRecordsTabView()
                 case "Haberler":
