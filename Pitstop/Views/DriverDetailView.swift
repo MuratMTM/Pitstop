@@ -81,6 +81,7 @@ struct DriverDetailMainView: View {
             .clipShape(Capsule())
             
             
+            
             // ⬇️ Sekmeye göre içerik
             VStack {
                 switch selectedTab {
@@ -89,20 +90,23 @@ struct DriverDetailMainView: View {
                 case "Sonuçlar":
                     GrandPrixListView(grandPrixes: DriverMockData.verstappenDetail.grandPrixes)
                 case "Rekorlar":
-                    DriverCareerRecordsTabView()
+                    DriverCareerRecordView()
                 case "Haberler":
                     DriverNewsTabView()
                 default:
                     Text("Bilinmeyen Sekme")
                 }
+                
+                
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity)
             .background(Color(.black.opacity(0.1)))
             .cornerRadius(15)
             .shadow(radius: 20)
             .padding(.horizontal)
-            .padding(.bottom,5)
+            .padding(10)
             
+            Spacer()
            
         }
         .navigationTitle("Sürücü Detayları")
