@@ -35,7 +35,7 @@ struct CustomOtherNewsView: View {
                 .fill(Color.white.opacity(0.7))
                 .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 2)
         )
-        .padding(.horizontal)
+        
         .padding(.bottom, 8)
     }
 }

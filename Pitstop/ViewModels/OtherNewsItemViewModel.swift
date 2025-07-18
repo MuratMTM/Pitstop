@@ -13,6 +13,12 @@ class OtherNewsItemViewModel: ObservableObject {
     ]
     
 
-
+    @Published var verstappenNewsItem: [OtherNewsItem] = [
+        
+      
+        OtherNewsItem(imageName: "verstappenNewsImage1", title: "Formula 1'de ortalığı karıştıracak iddia: Verstappen!", description: "Sky Sports F1 İtalya’nın haberine göre, Red Bull’un yıldız pilotu Max Verstappen ile Mercedes arasında ciddi transfer görüşmeleri yürütülüyor."),
+        OtherNewsItem(imageName: "verstappenNewsImage2", title: "TSUNODA, BROWN'A KATILIYOR: VERSTAPPEN OLMASA DAHA DA GERİDE KALIRDIK", description: "Yuki Tsunoda, Zak Brown'ın Red Bull'un Max Verstappen'i kaybetmesi halinde puan tablosunda Racing Bulls'un gerisine düşeceği yönündeki yorumuna katıldığını söyledi."),
+        OtherNewsItem(imageName: "verstappenNewsImage3", title: "PALMER: MEKİES ACİLEN VERSTAPPEN İLE ANLAŞMALI", description: "Eski Formula 1 pilotu Jolyon Palmer, Red Bull'un yeni takım patronu Laurent Mekies'i 'Max Verstappen'in takımda kalması konusunu acilen ele alması' konusunda uyardı.")
+    ]
     
 }

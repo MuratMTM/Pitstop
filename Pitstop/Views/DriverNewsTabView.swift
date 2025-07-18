@@ -9,7 +9,9 @@ import SwiftUI
 
 struct DriverNewsTabView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        CustomOtherNewsView(newsItem: OtherNewsItemViewModel().verstappenNewsItem[0] )
+        CustomOtherNewsView(newsItem: OtherNewsItemViewModel().verstappenNewsItem[1] )
+        CustomOtherNewsView(newsItem: OtherNewsItemViewModel().verstappenNewsItem[2] )
     }
 }
 

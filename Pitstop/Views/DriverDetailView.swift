@@ -100,7 +100,7 @@ struct DriverDetailMainView: View {
                 
             }
             .frame(maxWidth: .infinity)
-            .background(Color(.black.opacity(0.1)))
+            
             .cornerRadius(15)
             .shadow(radius: 20)
             .padding(.horizontal)
