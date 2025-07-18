@@ -17,7 +17,7 @@ struct CustomOtherNewsView: View {
                 Text(newsItem.title)
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .foregroundColor(.primary)
-                    .lineLimit(2)
+                    .lineLimit(3)
                 
                 Text(newsItem.description)
                     .font(.system(size: 12, weight: .regular, design: .rounded))
