@@ -15,13 +15,13 @@ struct CustomTabBar: View {
                 .overlay(Divider().background(Color.white.opacity(0.2)), alignment: .top)
             
             HStack(spacing: 40) {
-                TabButton(icon: "newspaper.fill", title: "Haberler", index: 0, selectedTab: $selectedTab)
+                TabButton(icon: "news-icon", title: "Haberler", index: 0, selectedTab: $selectedTab)
                 TabButton(icon: "f1CarIcon", title: "Takımlar", index: 1, selectedTab: $selectedTab)
                 TabButton(icon: "racing-helmet", title: "Puan", index: 2, selectedTab: $selectedTab)
-                TabButton(icon: "flag.pattern.checkered.2.crossed", title: "Takvim", index: 3, selectedTab: $selectedTab)
+                TabButton(icon: "lights-out-calendar", title: "Takvim", index: 3, selectedTab: $selectedTab)
             }
             .padding(.horizontal, 20)
-            .padding(.bottom, 15)
+            .padding(.bottom, 8)
         }
     }
 }
@@ -38,13 +38,13 @@ struct TabButton: View {
             Image(icon)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 22, height: 22)
+                .frame(width: 35, height: 25)
                 .foregroundStyle(selectedTab == index ? .white : .gray)
                 .opacity(selectedTab == index ? 1.0 : 0.7)
                 .animation(.easeInOut(duration: 0.2), value: selectedTab)
             
             Text(title)
-                .font(.caption2)
+                .font(.caption)
                 .fontWeight(selectedTab == index ? .semibold : .regular)
                 .foregroundColor(selectedTab == index ? .white : .gray)
         }
@@ -57,3 +57,5 @@ struct TabButton: View {
         }
     }
 }
+
+
