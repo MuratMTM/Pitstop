@@ -1,17 +1,6 @@
 import SwiftUI
 
-// MARK: - Renk Tanımları
 
-extension Color {
-    
-    static let f1Red = Color(red: 0.89, green: 0.04, blue: 0.07)
-    
-    static let bodyText = Color(red: 0.2, green: 0.2, blue: 0.2)
-    
-    static let metaText = Color(red: 0.5, green: 0.5, blue: 0.5)
-    
-    static let lightBackground = Color(UIColor.systemGray6)
-}
 
 // MARK: - Ana Görünüm
 struct NewsDetailView: View {
@@ -145,20 +134,11 @@ struct RelatedDriverPill: View {
 }
 
 
-extension Image {
-    init(systemNameOrAsset name: String) {
-        if let _ = UIImage(named: name) {
-            self.init(name)
-        } else {
-            self.init(systemName: "photo.fill")
-        }
-    }
-}
 
 struct NewsDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NewsDetailView(newsItem: NewsDetailItemViewModel().mockNews[0])
+            NewsDetailView(newsItem: NewsDetailItemViewModel().mockNews[2])
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DriverCareerRecordView: View {
+struct CustomDriverCareerRecordView_2: View {
     var body: some View {
         VStack{
             HStack{
@@ -27,5 +27,5 @@ struct DriverCareerRecordView: View {
 }
 
 #Preview {
-    DriverCareerRecordView()
+    CustomDriverCareerRecordView_2()
 }

@@ -51,3 +51,17 @@ extension Color {
     static let darkText = Color(red: 0.1, green: 0.1, blue: 0.1)
     static let lightText = Color(red: 0.5, green: 0.5, blue: 0.5)
 }
+
+
+// MARK: - Renk Tanımları
+
+extension Color {
+    
+    static let f1Red = Color(red: 0.89, green: 0.04, blue: 0.07)
+    
+    static let bodyText = Color(red: 0.2, green: 0.2, blue: 0.2)
+    
+    static let metaText = Color(red: 0.5, green: 0.5, blue: 0.5)
+    
+    static let lightBackground = Color(UIColor.systemGray6)
+}
