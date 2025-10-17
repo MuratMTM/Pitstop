@@ -44,3 +44,10 @@ extension Color {
     }
 }
 
+extension Color {
+    // Liste başlığınızdaki Pitstop kırmızısı
+    static let pitstopRed = Color(red: 0.89, green: 0.04, blue: 0.07)
+    static let darkBackground = Color(UIColor.systemGray6) // Açık tema için temiz gri
+    static let darkText = Color(red: 0.1, green: 0.1, blue: 0.1)
+    static let lightText = Color(red: 0.5, green: 0.5, blue: 0.5)
+}

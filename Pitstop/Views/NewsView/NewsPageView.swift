@@ -7,7 +7,7 @@ struct NewsPageView: View {
     var body: some View {
         ScrollView{
             VStack(spacing: 0) {
-                // Üst Başlık Barı
+                
                 ZStack {
                     Color(red: 0.9, green: 0.2, blue: 0.2)
                         .ignoresSafeArea(edges: .all)
@@ -28,7 +28,7 @@ struct NewsPageView: View {
                 
                 
                 
-                // Scrollable Haber Görseli
+                
                 if !viewModel.newsItems.isEmpty {
                     TabView(selection: $viewModel.selectedIndex) {
                         ForEach(viewModel.newsItems.indices, id: \.self) { index in
