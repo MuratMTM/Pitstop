@@ -8,13 +8,40 @@
 import SwiftUI
 
 struct RaceCalendarView: View {
+  
+    @StateObject var calendarEvents: RaceCalendarViewModel
+    
     var body: some View {
-        Text("Yarış Takvimi")
-            .bold()
-            .font(.largeTitle)
+        NavigationStack {
+            ZStack(alignment: .top) {
+                
+                Color.darkBackground.edgesIgnoringSafeArea(.all)
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVStack(spacing: 25) {
+                        
+                  
+                        ForEach(calendarEvents.mockCalendar) { event in
+                           
+                            NavigationLink(destination: Text("\(event.grandPrix) Detay Sayfası")) {
+                           
+                                CustomRaceCalendarCardView(event: event)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    .padding(.top, 20)
+                    .padding(.horizontal)
+                    .padding(.bottom, 40)
+                }
+            }
+            .navigationTitle("Yarış Takvimi")
+            .navigationBarTitleDisplayMode(.large)
+            .preferredColorScheme(.light)
+        }
     }
 }
 
 #Preview {
-    RaceCalendarView()
+    RaceCalendarView(calendarEvents: RaceCalendarViewModel())
 }

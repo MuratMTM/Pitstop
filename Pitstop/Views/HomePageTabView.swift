@@ -26,7 +26,7 @@ struct HomePageTabView: View {
                 case 2:
                     CustomDriverListView()
                 case 3:
-                    RaceCalendarView()
+                    RaceCalendarView(calendarEvents: RaceCalendarViewModel())
                 default:
                     EmptyView()
                 }

@@ -10,6 +10,8 @@ import Foundation
 struct RaceCalendar: Identifiable, Codable {
     let id: String
     let grandPrix: String
+    let location: String
+    let trackImageName: String
     let date: String
     let whoWon: String
     let qualification: [String]
