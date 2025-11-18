@@ -7,61 +7,30 @@
 
 import Foundation
 
-protocol NetworkServiceProtocol {
-    func fetchTeams() async throws -> [Team]
-    func fetchDrivers() async throws -> [Driver]
-    func fetchRaceCalendar() async throws -> [RaceCalendar]
-    func fetchNews() async throws -> [News]
+enum NetworkError: Error {
+    case badURL
+    case badResponse
+    case decodingError
 }
 
-struct NetworkService: NetworkServiceProtocol {
-   
-    func fetchTeams() async throws -> [Team] {
-        let url = URL(string: "https://ergast.com/api/f1/current/constructors.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(TeamResponse.self, from: data)
-        
-        return response.teams
-        
-    }
+final class NetworkService {
+    static let shared = NetworkService()
     
-    func fetchDrivers() async throws -> [Driver] {
-        let url = URL(string: "https://ergast.com/api/f1/current/drivers.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(DriverResponse.self, from: data)
-        
-        return response.drivers
-    }
+    private init() {}
     
-    func fetchRaceCalendar() async throws -> [RaceCalendar] {
-        let url = URL(string: "https://ergast.com/api/f1/current.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(RaceCalendarResponse.self, from: data)
+    func fetch<T: Decodable>(_ type: T.Type, from url:URL) async throws -> T {
+        let (data,response) = try await URLSession.shared.data(from: url)
         
-        return response.races
-    }
-    
-    func fetchNews() async throws -> [News] {
-        let url = URL(string: "https://newsapi.org/v2/everything?q=formula1&apiKey=\(APIKeys.newsAPIKey)&language=en")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(NewsResponse.self, from: data)
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.badResponse
+        }
         
-        return response.articles
+        do {
+            let decoded = try JSONDecoder().decode(T.self, from: data)
+            return decoded
+        } catch  {
+            throw NetworkError.decodingError
+        }
     }
-}
-
-struct TeamResponse: Codable {
-    let teams: [Team]
-}
-
-struct DriverResponse: Codable {
-    let drivers: [Driver]
-}
-
-struct RaceCalendarResponse: Codable {
-    let races: [RaceCalendar]
-}
-
-struct NewsResponse: Codable {
-    let articles: [News]
 }
