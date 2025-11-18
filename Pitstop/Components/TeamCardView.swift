@@ -31,12 +31,16 @@ struct TeamCardView: View {
                                 .frame(width: 50,height: 50))
                     
                     
-                    Text(team.name)
-                        .font(.title)
-                        .foregroundColor(.black)
-                        .fontWeight(.bold)
-                        .kerning(3)
-                        .monospaced(true)
+                    if #available(iOS 16.0, *) {
+                        Text(team.name)
+                            .font(.title)
+                            .foregroundColor(.black)
+                            .fontWeight(.bold)
+                            .kerning(3)
+                            .monospaced(true)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                     
                     
                     if let url = URL(string: team.logoURL){
