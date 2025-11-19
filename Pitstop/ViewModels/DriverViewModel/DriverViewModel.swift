@@ -1,22 +1,28 @@
-//import Foundation
-//
-//class DriverViewModel: ObservableObject {
-//    @Published var drivers: [Driver] = []
-//    private let networkService: NetworkServiceProtocol
-//    
-//    init(networkService: NetworkServiceProtocol = NetworkService()) {
-//        self.networkService = networkService
-//    }
-//    
-//    @MainActor
-//    func fetchDrivers() async {
-//        do{
-//            let fetchedDrivers = try await networkService.fetchDrivers()
-//            drivers = fetchedDrivers
-//        }
-//        catch{
-//            print("Error fetching drivers: \(error)")
-//        }
-//    }
-//    
-//}
+import Foundation
+@MainActor
+
+class DriverViewModel: ObservableObject {
+    @Published var drivers: [DriverModel] = []
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String?
+    
+    private let service: DriverServiceProtocol
+        
+    init (service: DriverServiceProtocol = DriverService()) {
+        self.service = service
+    }
+    
+    func loadDrivers () async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+           let result = try await service.fetchDrivers()
+            self.drivers = result
+           
+        } catch  {
+            self.errorMessage = error.localizedDescription
+        }
+        isLoading = false
+    }
+}

@@ -3,11 +3,11 @@ import SwiftUI
 
 struct CustomDriverCardView: View {
 
-    let driver: Driver
+    let driver: DriverModel
     
     
     private var colors: (vibrant: Color, background: Color) {
-        F1Styling.getColors(for: driver.constructor)
+        F1Styling.getColors(for: driver.teamId)
     }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct CustomDriverCardView: View {
                
                 VStack(spacing: 8) {
                 
-                    Text(driver.number)
+                    Text(driver.number.description)
                         .font(.system(size: 48, weight: .heavy, design: .rounded))
                         .foregroundColor(.white)
                         .shadow(radius: 5)
@@ -50,13 +50,13 @@ struct CustomDriverCardView: View {
                     
                     Spacer()
                     
-                    Text(driver.name)
+                    Text(driver.name + driver.surname)
                         .font(.title2)
                         .fontWeight(.heavy)
                         .foregroundColor(.white)
                         .shadow(radius: 2)
 
-                    Text(driver.constructor)
+                    Text(driver.teamId)
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundColor(colors.vibrant)
@@ -64,8 +64,8 @@ struct CustomDriverCardView: View {
                     
                    
                     HStack(spacing: 15) {
-                        StatPill(label: "PTS", value: driver.points, color: colors.vibrant)
-                        StatPill(label: "WDC", value: driver.championship, color: colors.vibrant)
+                        StatPill(label: "PTS", value: driver.number.description, color: colors.vibrant)
+                        StatPill(label: "WDC", value: driver.number.description, color: colors.vibrant)
                     }
                     
                     Spacer()
@@ -78,7 +78,7 @@ struct CustomDriverCardView: View {
                 VStack(spacing: 10) {
                     
              
-                    Image(driver.previewImageUrl)
+                    Image(driver.url)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100)
@@ -87,7 +87,7 @@ struct CustomDriverCardView: View {
                         .shadow(radius: 8)
                         
              
-                    Image(driver.originFlag)
+                    Image(driver.shortName)
                         .resizable()
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
@@ -132,12 +132,12 @@ struct StatPill: View {
 struct CustomDriverCardView_Previews: PreviewProvider {
     static var previews: some View {
    
-        CustomDriverCardView(driver: customDrivers[0])
+        CustomDriverCardView(driver: DriverViewModel().drivers[0])
             .previewLayout(.sizeThatFits)
             .padding()
         
      
-        CustomDriverCardView(driver: customDrivers[2])
+        CustomDriverCardView(driver:DriverViewModel().drivers[1])
             .previewLayout(.sizeThatFits)
             .padding()
     }
