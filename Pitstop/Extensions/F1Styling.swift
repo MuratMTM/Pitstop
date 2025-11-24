@@ -73,3 +73,42 @@ struct F1Styling {
         )
     }
 }
+
+extension F1Styling {
+    
+    static func teamDisplayName(for teamId: String) -> String {
+        switch teamId {
+        case "red_bull":      return "Oracle Red Bull Racing"
+        case "mclaren":       return "McLaren F1 Team"
+        case "mercedes":      return "Mercedes-AMG Petronas"
+        case "ferrari":       return "Scuderia Ferrari"
+        case "aston_martin":  return "Aston Martin Aramco"
+        case "alpine":        return "BWT Alpine F1 Team"
+        case "williams":      return "Williams Racing"
+        case "rb":            return "Visa Cash App RB"
+        case "sauber":        return "Stake F1 Team Sauber"
+        case "haas":          return "Haas F1 Team"
+        default:
+            return teamId
+                .replacingOccurrences(of: "_", with: " ")
+                .capitalized
+        }
+    }
+    
+    static func teamShortCode(for teamId: String) -> String {
+        switch teamId {
+        case "red_bull":      return "RBR"
+        case "mclaren":       return "MCL"
+        case "mercedes":      return "MER"
+        case "ferrari":       return "FER"
+        case "aston_martin":  return "AMR"
+        case "alpine":        return "ALP"
+        case "williams":      return "WIL"
+        case "rb":            return "RB"
+        case "sauber":        return "SAU"
+        case "haas":          return "HAA"
+        default:              return teamId.prefix(3).uppercased()
+        }
+    }
+}
+

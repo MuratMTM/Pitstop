@@ -1,87 +1,99 @@
-//
-//  DriverCardView.swift
-//  Pitstop
-//
-//  Created by Murat Işık on 24.11.2025.
-//
-
-
-
 import SwiftUI
 
 struct DriverCardView: View {
-    let driver: DriverModel   // Senin modelinden geliyor
-
+    let driver: DriverModel
+    
+    private var colors: (vibrant: Color, background: Color) {
+        F1Styling.getColors(for: driver.teamId)
+    }
+    
     var body: some View {
-        let colors = F1Styling.getColors(for: driver.teamId)
-
-        VStack(spacing: 12) {
-
-            // Pilot Numarası
-            Text("#\(driver.number)")
-                .font(.system(size: 38, weight: .heavy))
-                .foregroundColor(.white.opacity(0.95))
-                .padding(.top, 10)
-
-            // İsim Bilgisi
-            VStack(spacing: 2) {
-                Text("\(driver.name) \(driver.surname)")
-                    .font(.title2.bold())
-                    .foregroundColor(.white)
-
-                Text(driver.shortName)
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.75))
-            }
-
-            Divider()
-                .background(Color.white.opacity(0.3))
-                .padding(.horizontal, 32)
-
-            // Alt Bilgiler (Simetrik)
-            HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Milliyet")
-                        .font(.caption2)
-                        .foregroundColor(.white.opacity(0.6))
-                    Text(driver.nationality)
-                        .font(.callout.bold())
+        ZStack(alignment: .topLeading) {
+            
+         
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [colors.background, colors.vibrant],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .shadow(color: colors.vibrant.opacity(0.45), radius: 16, x: 0, y: 10)
+                .overlay(
+                    
+                    Text(F1Styling.teamShortCode(for: driver.teamId))
+                        .font(.system(size: 72, weight: .black, design: .rounded))
+                        .foregroundColor(.white.opacity(0.07))
+                        .rotationEffect(.degrees(-18))
+                        .offset(x: 20, y: 40),
+                    alignment: .bottomTrailing
+                )
+       
+            VStack(spacing: 14) {
+                
+           
+                HStack {
+                    Text(F1Styling.teamDisplayName(for: driver.teamId).uppercased())
+                        .font(.caption2.weight(.semibold))
                         .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .background(
+                            Capsule()
+                                .fill(colors.vibrant.opacity(0.85))
+                        )
+                    Spacer()
                 }
-
-                Spacer()
-
-                VStack(alignment: .trailing, spacing: 3) {
-                    Text("Doğum")
-                        .font(.caption2)
-                        .foregroundColor(.white.opacity(0.6))
-                    Text(driver.birthday)
-                        .font(.callout.bold())
+                
+           
+                VStack(spacing: 6) {
+                    Text("#\(driver.number)")
+                        .font(.system(size: 34, weight: .heavy, design: .rounded))
                         .foregroundColor(.white)
+                    
+                    Text("\(driver.name) \(driver.surname)")
+                        .font(.title3.bold())
+                        .foregroundColor(.white)
+                    
+                    Text(driver.shortName)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 4)
+                
+                Divider()
+                    .overlay(Color.white.opacity(0.35))
+                    .padding(.vertical, 4)
+                
+             
+                HStack {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Nationality")
+                            .font(.caption2)
+                            .foregroundColor(.white.opacity(0.65))
+                        
+                        Text(driver.nationality)
+                            .font(.callout.weight(.semibold))
+                            .foregroundColor(.white)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 3) {
+                        Text("Birthday")
+                            .font(.caption2)
+                            .foregroundColor(.white.opacity(0.65))
+                        
+                        Text(driver.birthday)
+                            .font(.callout.weight(.semibold))
+                            .foregroundColor(.white)
+                    }
                 }
             }
-            .padding(.horizontal)
-
-            Spacer(minLength: 10)
+            .padding(18)
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(
-            LinearGradient(
-                colors: [
-                    colors.vibrant,
-                    colors.background
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
-        .cornerRadius(22)
-        .shadow(color: colors.background.opacity(0.7), radius: 10, x: 0, y: 6)
-        .overlay(
-            RoundedRectangle(cornerRadius: 22)
-                .stroke(Color.white.opacity(0.12), lineWidth: 1)
-        )
         .onTapGesture {
             if let url = URL(string: driver.url) {
                 UIApplication.shared.open(url)
@@ -89,6 +101,7 @@ struct DriverCardView: View {
         }
     }
 }
+
 
 #Preview {
     DriverCardView(driver: DriverModel(
