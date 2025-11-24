@@ -64,4 +64,19 @@ extension Color {
     static let metaText = Color(red: 0.5, green: 0.5, blue: 0.5)
     
     static let lightBackground = Color(UIColor.systemGray6)
+    
+    static let teamPrimaryColors: [String: Color] = [
+        "red_bull": Color(hex: "#1E41FF"),
+        "mclaren": Color(hex: "#FF8000"),
+        "mercedes": Color(hex: "#0D0D0D"),
+        "ferrari": Color(hex: "#DC0000"),
+        "aston_martin": Color(hex: "#006F62"),
+        "alpine": Color(hex: "#0090FF"),
+        "williams": Color(hex: "#00A3E0"),
+        "rb": Color(hex: "#0033FF"),
+        "sauber": Color(hex: "#00FF75"),
+        "haas": Color(hex: "#181818")  
+    ]
+
 }
+

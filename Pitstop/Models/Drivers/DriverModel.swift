@@ -11,7 +11,7 @@ struct DriverModel: Decodable {
     let driverId: String
     let name: String
     let surname: String
-    let nationally: String
+    let nationality: String
     let birthday: String
     let number: Int
     let shortName: String
