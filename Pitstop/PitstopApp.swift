@@ -6,9 +6,15 @@
 ////
 
 import SwiftUI
+import Firebase
 
 @main
 struct PitstopApp: App {
+    init() {
+          #if !DEBUG
+          FirebaseApp.configure()
+          #endif
+      }
     var body: some Scene {
         WindowGroup {
             DriverListView()

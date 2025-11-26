@@ -18,6 +18,9 @@ struct DriverModel: Decodable {
     let url: String
     let teamId: String
     
+    var photoURL: String?
+    var flagURL: String?
+    
     
 }
 
