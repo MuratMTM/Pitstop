@@ -28,7 +28,7 @@ class DriverViewModel: ObservableObject {
                 
         
                 let photoPath = "drivers/\(driver.driverId).png"
-                fetched[index].photoURL = await imageService.getImageURL(path: photoPath)
+                fetched[index].imageURL = await imageService.getImageURL(path: photoPath)
                 
                
                 let code = nationalityCode(from: driver.nationality)

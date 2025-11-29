@@ -1,7 +1,7 @@
 import Foundation
 
 struct DriverChampionshipModel: Decodable, Identifiable {
-    var id: String {driverId}
+    var id: String { driverId }
     
     let classificationId: Int
     let driverId: String
@@ -9,11 +9,14 @@ struct DriverChampionshipModel: Decodable, Identifiable {
     let points: Int
     let position: Int
     let wins: Int
-    let driver: [DriverModel]
-    let teams: [TeamModel]
+    
+    let driver: ChampionshipDriver
+    let team: ChampionshipTeam
     
     var imageURL: String?
+    var flagURL: String?
 }
+
 
 struct DriverChampionshipResponse: Decodable {
     let limit: Int
@@ -21,6 +24,6 @@ struct DriverChampionshipResponse: Decodable {
     let total: Int
     let season: Int
     let championshipId: String
-    let driverChampionship: [DriverChampionshipModel]
-    
+    let drivers_championship: [DriverChampionshipModel]
 }
+

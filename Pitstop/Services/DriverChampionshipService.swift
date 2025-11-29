@@ -22,6 +22,6 @@ final class DriverChampionshipService: DriverChampionshipServiceProtocol {
         }
         
         let response = try await network.fetch(DriverChampionshipResponse.self, from: url)
-        return response.driverChampionship
+        return response.drivers_championship
     }
 }

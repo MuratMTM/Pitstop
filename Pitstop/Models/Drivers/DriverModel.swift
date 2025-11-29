@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct DriverModel: Decodable {
+struct DriverModel: Decodable, Identifiable {
+    var id: String { driverId }
+    
     let driverId: String
     let name: String
     let surname: String
@@ -18,13 +20,12 @@ struct DriverModel: Decodable {
     let url: String
     let teamId: String
     
-    var photoURL: String?
+    // App-internal fields
+    var imageURL: String?
     var flagURL: String?
-    
-    
 }
 
-struct DriverResponse: Decodable{
+struct DriverResponse: Decodable {
     let limit: Int
     let offset: Int
     let total: Int
@@ -32,4 +33,3 @@ struct DriverResponse: Decodable{
     let championshipId: String
     let drivers: [DriverModel]
 }
-
