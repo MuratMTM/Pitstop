@@ -124,12 +124,16 @@ struct CircuitCardView: View {
                         
                         HStack {
                             Text("\(circuit.fastestLapDriverId?.uppercased() ?? "—") | \(circuit.fastestLapTeamId?.uppercased() ?? "—") |")
+                            
                                 .font(.caption2)
                                 .foregroundColor(.black.opacity(0.8))
                             
-                            Text("\(circuit.fastestLapYear ?? 2025)")
+                            Text(String(circuit.fastestLapYear ?? 2025))
                                 .font(.caption2)
                                 .foregroundColor(.black.opacity(0.8))
+
+                            
+                          
                         }
                     }
                     .padding(.top, 6)

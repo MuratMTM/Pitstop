@@ -10,6 +10,7 @@ struct TeamModel: Decodable, Identifiable {
     let constructorsChampionships: Int?
     let driversChampionships: Int?
     let url: String
+    var imageURL: String?
     
     init(
         teamId: String,
@@ -18,7 +19,9 @@ struct TeamModel: Decodable, Identifiable {
         firstAppearance: Int,
         constructorsChampionships: Int?,
         driversChampionships: Int?,
-        url: String
+        url: String,
+        imageURL: String
+        
     ) {
         self.teamId = teamId
         self.teamName = teamName
@@ -27,7 +30,36 @@ struct TeamModel: Decodable, Identifiable {
         self.constructorsChampionships = constructorsChampionships
         self.driversChampionships = driversChampionships
         self.url = url
+        self.imageURL = imageURL
     }
+    
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        
+        teamId = try c.decode(String.self, forKey: .teamId)
+        teamName = try c.decode(String.self, forKey: .teamName)
+        
+        // teamNationality ya da country
+        if let nat = try? c.decode(String.self, forKey: .teamNationality) {
+            teamNationality = nat
+        } else {
+            teamNationality = try c.decode(String.self, forKey: .country)
+        }
+        
+        // firstApp(e)arance karmaşası
+        firstAppearance =
+            (try? c.decode(Int.self, forKey: .firstAppearance1)) ??
+            (try? c.decode(Int.self, forKey: .firstAppearance2)) ??
+            (try? c.decode(Int.self, forKey: .firstAppearance3)) ??
+            0
+        
+        constructorsChampionships = try c.decodeIfPresent(Int.self, forKey: .constructorsChampionships)
+        driversChampionships      = try c.decodeIfPresent(Int.self, forKey: .driversChampionships)
+        url = try c.decode(String.self, forKey: .url)
+    }
+   
+    }
+ 
     
     enum CodingKeys: String, CodingKey {
             case teamId
@@ -42,31 +74,8 @@ struct TeamModel: Decodable, Identifiable {
             case url
         }
         
-        init(from decoder: Decoder) throws {
-            let c = try decoder.container(keyedBy: CodingKeys.self)
-            
-            teamId = try c.decode(String.self, forKey: .teamId)
-            teamName = try c.decode(String.self, forKey: .teamName)
-            
-            // teamNationality ya da country
-            if let nat = try? c.decode(String.self, forKey: .teamNationality) {
-                teamNationality = nat
-            } else {
-                teamNationality = try c.decode(String.self, forKey: .country)
-            }
-            
-            // firstApp(e)arance karmaşası
-            firstAppearance =
-                (try? c.decode(Int.self, forKey: .firstAppearance1)) ??
-                (try? c.decode(Int.self, forKey: .firstAppearance2)) ??
-                (try? c.decode(Int.self, forKey: .firstAppearance3)) ??
-                0
-            
-            constructorsChampionships = try c.decodeIfPresent(Int.self, forKey: .constructorsChampionships)
-            driversChampionships      = try c.decodeIfPresent(Int.self, forKey: .driversChampionships)
-            url = try c.decode(String.self, forKey: .url)
-        }
-    }
+
+    
 struct TeamsResponse: Decodable {
     let limit: Int
     let offset: Int

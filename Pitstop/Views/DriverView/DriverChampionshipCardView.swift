@@ -101,3 +101,7 @@ struct DriverChampionshipCardView: View {
             .cornerRadius(6)
     }
 }
+
+#Preview {
+    DriverChampionshipCardView(driverChampionship: DriverChampionshipViewModel().driverChampionship.first!)
+}
