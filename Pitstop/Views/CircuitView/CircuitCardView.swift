@@ -1,10 +1,3 @@
-//
-//  CircuitCardView.swift
-//  Pitstop
-//
-//  Created by Murat Işık on 24.11.2025.
-//
-
 import SwiftUI
 
 struct CircuitCardView: View {
@@ -25,7 +18,6 @@ struct CircuitCardView: View {
                         endPoint: .bottomTrailing
                     )
                 )
-            
                 .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 6)
                 .overlay(
                     RoundedRectangle(cornerRadius: 22)
@@ -34,7 +26,7 @@ struct CircuitCardView: View {
             
             VStack(alignment: .leading, spacing: 16) {
                 
-                
+                // ÜST: İsim + Lokasyon
                 VStack(alignment: .leading, spacing: 4) {
                     Text(circuit.circuitName)
                         .font(.title3.bold())
@@ -49,14 +41,60 @@ struct CircuitCardView: View {
                     }
                 }
                 
+                // ORTA: PİST FOTOĞRAFI (tam ortada, dikdörtgen – alana sığdırılmış)
+                ZStack {
+                    // Hafif placeholder arka plan
+                    RoundedRectangle(cornerRadius: 14)
+                        .fill(Color.black.opacity(0.06))
+                    
+                    if let urlString = circuit.imageURL,
+                       let url = URL(string: urlString) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxHeight: 130)
+                                    .padding(8)
+                            case .failure(_):
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxHeight: 80)
+                                    .padding(24)
+                                    .foregroundColor(.gray.opacity(0.5))
+                            case .empty:
+                                ProgressView()
+                            @unknown default:
+                                Color.gray.opacity(0.3)
+                            }
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 14)) // Taşanı kırp
+                    } else {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 80)
+                            .padding(24)
+                            .foregroundColor(.gray.opacity(0.5))
+                    }
+                }
+                .frame(height: 150)
+                .frame(maxWidth: .infinity)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(Color.white.opacity(0.4), lineWidth: 1)
+                )
+                .shadow(radius: 4, y: 2)
+                
                 Divider().background(Color.white.opacity(0.15))
                 
-                
+                // ALT 1: İstatistikler
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     statRow(icon: "timer",
                             title: "Lap Record",
-                            value: circuit.lapRecord ?? "0")
+                            value: circuit.lapRecord ?? "—")
                     
                     statRow(icon: "ruler",
                             title: "Length",
@@ -73,9 +111,8 @@ struct CircuitCardView: View {
                 
                 Divider().background(Color.white.opacity(0.15))
                 
-                
+                // ALT 2: En hızlı tur bilgisi
                 VStack(alignment: .leading, spacing: 10) {
-                    
                     HStack(spacing: 6) {
                         Text("FASTEST LAP")
                             .font(.caption2.bold())
@@ -85,8 +122,8 @@ struct CircuitCardView: View {
                             .background(Color.black.opacity(0.18))
                             .cornerRadius(6)
                         
-                        HStack{
-                            Text("\(circuit.fastestLapDriverId?.uppercased() ?? "0") | \(circuit.fastestLapTeamId?.uppercased() ?? "0") |")
+                        HStack {
+                            Text("\(circuit.fastestLapDriverId?.uppercased() ?? "—") | \(circuit.fastestLapTeamId?.uppercased() ?? "—") |")
                                 .font(.caption2)
                                 .foregroundColor(.black.opacity(0.8))
                             
@@ -97,14 +134,11 @@ struct CircuitCardView: View {
                     }
                     .padding(.top, 6)
                 }
-                
             }
             .padding(20)
         }
         .frame(maxWidth: .infinity)
     }
-    
-    
     
     private func statRow(icon: String, title: String, value: String) -> some View {
         HStack {
@@ -123,8 +157,6 @@ struct CircuitCardView: View {
         }
     }
     
-    
-    
     private func capsule(text: String, color: Color) -> some View {
         Text(text)
             .font(.caption2.bold())
@@ -137,6 +169,7 @@ struct CircuitCardView: View {
             )
     }
 }
+
 
 #Preview {
     CircuitCardView(circuit: CircuitViewModel().circuits.first!)

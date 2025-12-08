@@ -24,6 +24,8 @@ struct CircuitModel: Decodable {
     let fastestLapYear: Int?
     
     let url: String
+    
+    var imageURL: String?
 }
 
 struct CircuitResponse: Decodable {
