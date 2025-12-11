@@ -14,8 +14,8 @@ struct RaceModel: Decodable {
     let url: String
     let raceId: String
     let raceName: String
-    let circuit: CircuitModel
-    let results: [RaceResultModel]
+    var circuit: CircuitModel
+    var results: [RaceResultModel]
     
 }
 
@@ -28,6 +28,9 @@ struct RaceResultModel: Decodable {
     let retired: String?
     let driver: DriverModel
     let team: TeamModel
+    
+    var driverImageURL: String?
+    
 }
 
 struct RaceModelResponse: Decodable {
@@ -37,5 +40,6 @@ struct RaceModelResponse: Decodable {
     let offset: Int
     let total: Int
     let season: Int
-    let races: RaceModel
+    let races: [RaceModel]
 }
+

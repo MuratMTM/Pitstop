@@ -26,6 +26,7 @@ struct CircuitModel: Decodable {
     let url: String
     
     var imageURL: String?
+    var circuitFlagURL: String?
 }
 
 struct CircuitResponse: Decodable {
