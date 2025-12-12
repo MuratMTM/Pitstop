@@ -54,6 +54,16 @@ extension Color {
     static let podiumGold = Color(red: 1.0, green: 0.84, blue: 0.0)
     static let podiumSilver = Color(red: 0.75, green: 0.75, blue: 0.75)
     static let podiumBronze = Color(red: 0.8, green: 0.5, blue: 0.2)
+    
+    static func positionColor(_ position: Int) -> Color {
+        switch position {
+        case 1: return .podiumGold
+        case 2: return .podiumSilver
+        case 3: return .podiumBronze
+        default: return .gray
+        }}
+    
+    
 }
 
 
@@ -81,6 +91,8 @@ extension Color {
         "sauber": Color(hex: "#00FF75"),
         "haas": Color(hex: "#181818")  
     ]
+    
+ 
 
 }
 

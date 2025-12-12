@@ -18,7 +18,9 @@ struct CircuitModel: Decodable {
     let lapRecord: String?
     let firstParticipationYear: Int?
     let numberOfCorners: Int?
+   
     
+   
     let fastestLapDriverId: String?
     let fastestLapTeamId: String?
     let fastestLapYear: Int?

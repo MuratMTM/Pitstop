@@ -5,6 +5,7 @@ enum NetworkError: Error {
     case badURL
     case badResponse
     case decodingError
+    case noData
 }
 
 final class NetworkService {
