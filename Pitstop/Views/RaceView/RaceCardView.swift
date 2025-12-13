@@ -4,10 +4,18 @@ struct RaceResultCard: View {
     let race: RaceModel
     
     private var winnerInitials: String {
-        if !race.winner.shortName.isEmpty {
-            return race.winner.shortName
+        guard let winner = race.winner else {
+            return ""
         }
-        return "\(race.winner.name.prefix(1))\(race.winner.surname.prefix(1))".uppercased()
+        
+        if !winner.shortName.isEmpty {
+            return winner.shortName
+        }
+        
+        let firstNameInitial = winner.name.prefix(1)
+        let lastNameInitial = winner.surname.prefix(1)
+        
+        return "\(firstNameInitial)\(lastNameInitial)".uppercased()
     }
     
     private var fastLapTimeString: String {
@@ -45,7 +53,7 @@ struct RaceResultCard: View {
                 
                 Spacer()
                 
-                if let date = race.schedule.race.date {
+                if race.schedule.race.date != nil {
                      Text(race.schedule.race.time ?? "14 - 16 MAR")
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -60,7 +68,7 @@ struct RaceResultCard: View {
                     position: 1,
                     initials: winnerInitials,
                     time: fastLapTimeString,
-                    driverImageURL: race.winner.driverImageURL,
+                    driverImageURL: race.winner?.driverImageURL,
                     isFastLap: true
                 )
                 
@@ -93,27 +101,39 @@ struct RaceResultCard: View {
         
         let positionColor = Color.positionColor(position)
         
+   
+        let imageSize: CGFloat = 32
+        
         return VStack(spacing: 8) {
+            
             HStack(alignment: .top, spacing: 4) {
+                
+                
                 Text("\(position)")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(positionColor)
-                
+     
                 VStack(alignment: .leading, spacing: 2) {
+      
                     if let urlString = driverImageURL, let url = URL(string: urlString) {
+                        
                         AsyncImage(url: url) { image in
                             image.resizable().scaledToFill()
                         } placeholder: {
+                          
                             Circle().fill(Color.gray.opacity(0.3))
                         }
-                        .frame(width: 32, height: 32)
+                        .frame(width: imageSize, height: imageSize)
                         .clipShape(Circle())
+                        
                     } else {
-                        Circle().fill(Color.gray.opacity(0.3))
-                            .frame(width: 32, height: 32)
+
+                        Color.clear
+                            .frame(width: imageSize, height: imageSize)
                     }
                     
+                   
                     Image(systemName: "circle.fill")
                         .resizable()
                         .frame(width: 12, height: 12)
@@ -122,16 +142,18 @@ struct RaceResultCard: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
+         
             Text(initials)
                 .font(.headline)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+                
             Text(time)
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(isFastLap ? .purple : .primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                
         }
         .padding(8)
         .background(position == 1 ? positionColor.opacity(0.15) : Color.clear)

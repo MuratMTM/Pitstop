@@ -12,8 +12,8 @@ struct RaceModel: Decodable {
     let url: String
     let fast_lap: FastLapModel
     var circuit: RaceModelCircuitModel
-    var winner: WinnerModel
-    let teamWinner: ChampionshipTeam
+    var winner: WinnerModel?
+    var teamWinner: RaceModelChampionshipTeam?
     
     
 }
@@ -40,7 +40,7 @@ struct ChampionshipModel: Decodable {
 struct RaceScheduleModel: Decodable{
     let race: DateModel
     let qualy: DateModel
-    let fp1: DateModel?
+    let fp1: DateModel
     let fp2: DateModel?
     let fp3: DateModel?
     let sprintQualy: DateModel?
@@ -65,7 +65,7 @@ struct WinnerModel: Decodable {
     let surname: String
     let country: String
     let birthday: String
-    let numhber: Int
+    let number: Int
     let shortName: String
     let url: String
     
@@ -84,7 +84,7 @@ struct RaceModelCircuitModel: Decodable {
     let firstParticipationYear: Int?
     let corners: Int
     
-   
+    
     let fastestLapDriverId: String?
     let fastestLapTeamId: String?
     let fastestLapYear: Int?
@@ -93,4 +93,38 @@ struct RaceModelCircuitModel: Decodable {
     
     var imageURL: String?
     var circuitFlagURL: String?
+}
+
+struct RaceModelChampionshipTeam: Decodable {
+    let teamId: String
+    let teamName: String
+    let country: String
+    let firstAppearance: Int
+    let constructorsChampionships: Int?
+    let driversChampionships: Int?
+    let url: String
+}
+
+func updateRaceWinnerImageURL(raceToUpdate: inout RaceModel, imageService: ImageService) async {
+    
+    
+    guard let winner = raceToUpdate.winner else {
+        return
+    }
+    
+    let winnerId = winner.driverId
+    
+    
+    guard !winnerId.isEmpty else {
+        return
+        
+        
+        let driverURL = await imageService.getImageURL(path: "drivers/\(winnerId).png")
+        
+        
+        if let finalDriverURL = driverURL {
+            
+            raceToUpdate.winner!.driverImageURL = finalDriverURL
+        }
+    }
 }
