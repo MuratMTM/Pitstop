@@ -3,7 +3,7 @@ import Foundation
 import SwiftUI
 
 struct ResultBoxView: View {
-
+    
     let position: Int
     let initials: String
     let time: String
@@ -11,7 +11,7 @@ struct ResultBoxView: View {
     let isFastLap: Bool
     
     private let imageSize: CGFloat = 32
-
+    
     var body: some View {
         let positionColor = Color.positionColor(position)
         
@@ -64,6 +64,6 @@ struct ResultBoxView: View {
         .padding(8)
         .background(position == 1 ? positionColor.opacity(0.15) : Color.clear)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: 80)
     }
 }

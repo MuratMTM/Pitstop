@@ -51,7 +51,7 @@ struct RaceListView: View {
             }
             .navigationTitle(text.raceListViewTitleText.rawValue)
             
-      
+            
             .navigationDestination(item: $viewModel.selectedRace) { race in
                 RaceResultListView(
                     viewModel: RaceDetailViewModel(

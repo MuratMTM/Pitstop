@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct RaceDetailModel: Decodable {
     
@@ -69,5 +70,41 @@ struct FastLapDetailModel: Decodable {
     
 }
 
+extension RaceResultModel {
+    
+    var statusText: String {
+        if let time = time {
+            return time
+        }
+        
+        if let retired = retired {
+            if retired.uppercased().contains("DSQ") {
+                return "DSQ"
+            }
+            if retired.uppercased().contains("DNF") {
+                return "DNF"
+            }
+            return retired
+        }
+        
+        return "-"
+    }
+    
+    var statusColor: Color {
+        let status = statusText.uppercased()
+        
+        if status == "DSQ" {
+            return .orange
+        }
+        if status == "DNF" {
+            return .red.opacity(0.8)
+        }
+        if status.contains("LAP") {
+            return .secondary
+        }
+        
+        return .primary
+    }
+}
 
 
