@@ -6,14 +6,28 @@ class RaceViewModel: ObservableObject {
     @Published var races: [RaceModel] = []
     @Published var isLoading: Bool = false
     @Published var error: String? = nil
+    @Published var selectedRace: RaceNavigationItem?
+
     
     private var service: RaceServiceProtocol
     private var imageService: ImageService
-    
-    init(service: RaceServiceProtocol = RaceService(), imageService: ImageService = ImageService()){
+    let season: Int
+    init(service: RaceServiceProtocol = RaceService(), imageService: ImageService = ImageService(), season: Int = 2025){
         self.service = service
         self.imageService = imageService
+        self.season = season
     }
+    
+    func selectRace(_ race: RaceModel) {
+        print("🟢 Selected race:", race.raceName, "round:", race.round)
+
+        selectedRace = RaceNavigationItem(
+            season: season,
+            round: race.round,
+            raceName: race.raceName
+        )
+    }
+
     
     func loadAllRaceDetails() async {
         isLoading = true
@@ -78,3 +92,4 @@ class RaceViewModel: ObservableObject {
         return raceToUpdate
     }
 }
+

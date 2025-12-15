@@ -27,9 +27,9 @@ struct RaceDetailResponse: Decodable {
 }
 
 struct RaceResultModel: Decodable {
-    let position: Int
+    let position: LosslessInt
     let points: Int
-    let grid: Int
+    let grid: LosslessInt
     let time: String?
     let fastLap: FastLapDetailModel?
     let retired: String?
@@ -68,3 +68,6 @@ struct RaceTeamModel: Decodable {
 struct FastLapDetailModel: Decodable {
     
 }
+
+
+

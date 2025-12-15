@@ -50,7 +50,7 @@ final class RaceService: RaceServiceProtocol {
             throw NetworkError.badResponse
         }
         
-        await updateRaceWinnerImageURL(raceToUpdate: &race) // Tek yarışı da zenginleştir
+        await updateRaceWinnerImageURL(raceToUpdate: &race)
         
         return race
     }

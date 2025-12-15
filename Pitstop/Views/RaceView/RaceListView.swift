@@ -3,6 +3,7 @@ import SwiftUI
 struct RaceListView: View {
     
     @StateObject private var viewModel = RaceViewModel()
+    let text = PitstopTexts.RaceListViewTexts.self
     
     var body: some View {
         NavigationStack {
@@ -11,26 +12,36 @@ struct RaceListView: View {
                     .ignoresSafeArea()
                 
                 if viewModel.isLoading {
-                    ProgressView("Yarışlar Yükleniyor...")
+                    ProgressView(text.progressViewText.rawValue)
                         .controlSize(.large)
+                    
                 } else if let error = viewModel.error {
+                    
                     VStack(spacing: 10) {
-                        Image(systemName: "exclamationmark.triangle.fill")
+                        Image(systemName: text.errorIconText.rawValue)
                             .font(.largeTitle)
                             .foregroundStyle(.red)
-                        Text("Veri Yüklenirken Hata Oluştu")
-                        Text(error).font(.caption).foregroundStyle(.secondary)
                         
-                        Button("Tekrar Dene") {
+                        Text(text.loadingErrorText.rawValue)
+                        
+                        Text(error)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        
+                        Button(text.tryAgainButtonText.rawValue) {
                             Task { await viewModel.loadAllRaceDetails() }
                         }
                         .buttonStyle(.borderedProminent)
                     }
+                    
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 24) {
                             ForEach(viewModel.races, id: \.raceId) { race in
                                 RaceResultCard(race: race)
+                                    .onTapGesture {
+                                        viewModel.selectRace(race)
+                                    }
                             }
                         }
                         .padding(.vertical)
@@ -38,7 +49,19 @@ struct RaceListView: View {
                     }
                 }
             }
-            .navigationTitle("F1 Yarış Sonuçları")
+            .navigationTitle(text.raceListViewTitleText.rawValue)
+            
+      
+            .navigationDestination(item: $viewModel.selectedRace) { race in
+                RaceResultListView(
+                    viewModel: RaceDetailViewModel(
+                        season: race.season,
+                        round: race.round
+                    )
+                )
+                .navigationTitle(race.raceName)
+                .navigationBarTitleDisplayMode(.inline)
+            }
             .task {
                 if viewModel.races.isEmpty {
                     await viewModel.loadAllRaceDetails()

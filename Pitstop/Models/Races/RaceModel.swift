@@ -16,6 +16,7 @@ struct RaceModel: Decodable {
     var teamWinner: RaceModelChampionshipTeam?
     
     
+    
 }
 
 struct RaceModelResponse: Decodable {
@@ -127,4 +128,10 @@ func updateRaceWinnerImageURL(raceToUpdate: inout RaceModel, imageService: Image
             raceToUpdate.winner!.driverImageURL = finalDriverURL
         }
     }
+}
+
+struct RaceNavigationItem: Hashable {
+    let season: Int
+    let round: Int
+    let raceName: String
 }
