@@ -11,7 +11,7 @@ final class NewsViewModel: ObservableObject{
     
     init(service: NewsServiceProtocol = NewsService()) {
         self.service = service
-        }
+    }
     
     func loadNews(limit: Int = 20) async {
         isLoading = true
@@ -26,5 +26,5 @@ final class NewsViewModel: ObservableObject{
         }
         isLoading = false
     }
-    }
+}
 

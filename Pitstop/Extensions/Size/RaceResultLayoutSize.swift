@@ -6,3 +6,9 @@ enum RaceResultLayout {
     static let pointsWidth: CGFloat = 28
 }
 
+enum HeaderConstants {
+    static let safeAreaHeight: CGFloat = 44
+    static let contentHeight: CGFloat = 56
+    static let totalHeight: CGFloat = safeAreaHeight + contentHeight
+}
+

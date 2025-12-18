@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct NewsArticleModel: Identifiable, Decodable {
+struct NewsArticleModel: Identifiable, Decodable, Hashable {
     let id: String
     let title: String
     let summary: String
