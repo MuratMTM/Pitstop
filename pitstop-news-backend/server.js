@@ -5,15 +5,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+
 app.use(express.json());
 
-// MongoDB Bağlantısı
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB başarıyla bağlandı! pitstopdb hazır ✅'))
   .catch(err => console.error('Bağlantı hatası:', err));
 
-// Routes
+
 const newsRoutes = require("./routes/news");
 app.use("/api/news", newsRoutes);
 
@@ -22,6 +22,9 @@ app.use("/api/drivers", driversRoutes);
 
 const teamsRoutes =  require('./routes/teams')
 app.use('/api/teams', teamsRoutes);
+
+const circuitRoutes =  require('./routes/circuits')
+app.use('/api/circuits', circuitRoutes);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
@@ -35,6 +38,9 @@ updateTeams();
 
 const { updateNews } = require('./updaters/newsUpdater');
 updateNews();
+
+const { updateCircuits } = require('./updaters/circuitUpdater');
+updateCircuits();
 
 
 app.listen(PORT, () => {
