@@ -28,7 +28,8 @@ async function updateTeams() {
       'Germany': 'de',
       'France': 'fr',
       'Switzerland': 'ch',  
-      'United States': 'us' 
+      'United States': 'us',
+      'Austria' : 'at'
     };
 
     for (let item of championship) {
@@ -39,7 +40,7 @@ async function updateTeams() {
 
       const teamColor = teamColors[item.teamId] || '#000000';
 
-      // 2025 araç resimleri (resmi F1 sitesi formatı – güncel)
+      
       const carImageUrl = `https://media.formula1.com/image/upload/f_auto/q_auto/v1700000000/content/dam/fom-website/2025gridcars/${item.teamId}.png`;
 
       await Team.findOneAndUpdate(

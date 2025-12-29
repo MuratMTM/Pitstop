@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.error('Bağlantı hatası:', err));
 
 // Routes
-const newsRoutes = require("./routes/newsRoutes");
+const newsRoutes = require("./routes/news");
 app.use("/api/news", newsRoutes);
 
 const driversRoutes = require("./routes/drivers"); 
@@ -32,6 +32,9 @@ const { updateDrivers } = require('./updaters/driverUpdater');
 updateDrivers(); 
 const { updateTeams } = require('./updaters/teamUpdater');
 updateTeams();
+
+const { updateNews } = require('./updaters/newsUpdater');
+updateNews();
 
 
 app.listen(PORT, () => {
