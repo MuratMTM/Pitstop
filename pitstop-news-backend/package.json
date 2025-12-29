@@ -10,7 +10,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.2.1",
+    "axios": "^1.13.2",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "mongoose": "^8.20.4",
+    "node-cron": "^4.2.1",
     "rss-parser": "^3.13.0"
   }
 }
