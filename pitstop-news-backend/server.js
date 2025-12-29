@@ -20,6 +20,9 @@ app.use("/api/news", newsRoutes);
 const driversRoutes = require("./routes/drivers"); 
 app.use("/api/drivers", driversRoutes);
 
+const teamsRoutes =  require('./routes/teams')
+app.use('/api/teams', teamsRoutes);
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
@@ -27,6 +30,8 @@ app.get("/health", (req, res) => {
 
 const { updateDrivers } = require('./updaters/driverUpdater');
 updateDrivers(); 
+const { updateTeams } = require('./updaters/teamUpdater');
+updateTeams();
 
 
 app.listen(PORT, () => {
