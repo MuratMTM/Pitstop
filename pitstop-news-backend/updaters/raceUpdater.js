@@ -20,7 +20,7 @@ async function updateRaces() {
     for (let raceItem of races) {
       const round = raceItem.round;
       const raceName = raceItem.raceName;
-      const date = raceItem.schedule.race.date + 'T' + raceItem.schedule.race.time; // ISO format için
+      const date = raceItem.schedule.race.date + 'T' + (raceItem.schedule.race.time || '00:00:00Z');
 
       const circuitId = raceItem.circuit.circuitId;
 

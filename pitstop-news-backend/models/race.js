@@ -20,7 +20,7 @@ const raceSchema = new mongoose.Schema({
   season: { type: Number, required: true },      
   round: { type: Number, required: true, unique: true }, 
   raceName: { type: String, required: true },
-  date: { type: Date, required: true },
+  date: { type: String},
   circuitId: { type: String, required: true },   
 
   winnerDriverId: String, 

@@ -25,6 +25,9 @@ app.use('/api/teams', teamsRoutes);
 const circuitRoutes =  require('./routes/circuits')
 app.use('/api/circuits', circuitRoutes);
 
+const racesRoutes = require('./routes/races');
+app.use('/api/races', racesRoutes);
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
