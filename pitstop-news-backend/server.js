@@ -1,13 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
-
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB başarıyla bağlandı! pitstopdb hazır ✅'))
@@ -41,6 +40,9 @@ updateNews();
 
 const { updateCircuits } = require('./updaters/circuitUpdater');
 updateCircuits();
+
+const { updateRaces } = require('./updaters/raceUpdater');
+updateRaces();
 
 
 app.listen(PORT, () => {
