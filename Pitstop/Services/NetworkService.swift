@@ -29,3 +29,9 @@ final class NetworkService {
         }
     }
 }
+
+extension URL {
+    static func apiURL(endpoint: String) -> URL? {
+        return URL(string: APIConstants.baseURL + endpoint)
+    }
+}

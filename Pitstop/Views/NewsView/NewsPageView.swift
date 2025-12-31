@@ -6,15 +6,14 @@ struct NewsPageView: View {
     
     @StateObject private var viewModel = NewsViewModel()
     @State private var selectedIndex = 0
-    @State private var selectedArticle: NewsArticleModel?
+    @State private var selectedArticle: News?
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
                 
-                
                 ScrollView {
-                    VStack(spacing: 0){
+                    VStack(spacing: 0) {
                         
                         NewsFeedView(
                             viewModel: viewModel,
@@ -23,7 +22,7 @@ struct NewsPageView: View {
                         )
                         
                         NewsDivider()
-                            .padding(.vertical,10)
+                            .padding(.vertical, 10)
                         
                         OtherNewsListView(
                             viewModel: viewModel,
@@ -34,31 +33,23 @@ struct NewsPageView: View {
                     .padding(.top, 55)
                 }
                 
-                
                 PitstopHeaderView()
             }
             .task {
                 if viewModel.articles.isEmpty {
-                    await viewModel.loadNews(limit: 30)
+                    await viewModel.loadNews()
                 }
             }
-            .navigationDestination(item: $selectedArticle) {
-                NewsDetailView(article: $0)
-            }
+            
         }
     }
 }
-
-
-
 
 #Preview {
     NewsPageView()
 }
 
-
 // MARK: - Header
-
 struct PitstopHeaderView: View {
     private let pitStopHeader: String = "Pitstop"
     private let pitStopFlagHeader: String = "raceFlag"
@@ -86,12 +77,12 @@ struct PitstopHeaderView: View {
     }
 }
 
-
+// MARK: - Feed View
 struct NewsFeedView: View {
     
     @ObservedObject var viewModel: NewsViewModel
     @Binding var selectedIndex: Int
-    let onArticleTap: (NewsArticleModel) -> Void
+    let onArticleTap: (News) -> Void
     
     var body: some View {
         VStack(spacing: 0) {
@@ -113,7 +104,6 @@ struct NewsFeedView: View {
                     onArticleTap: onArticleTap
                 )
                 
-                
                 NewsTitleBoxView(
                     article: selectedHeroArticle,
                     cardWidth: UIScreen.main.bounds.width - 40,
@@ -125,11 +115,11 @@ struct NewsFeedView: View {
         }
     }
     
-    private var heroArticles: [NewsArticleModel] {
+    private var heroArticles: [News] {
         Array(viewModel.articles.prefix(7))
     }
     
-    private var selectedHeroArticle: NewsArticleModel? {
+    private var selectedHeroArticle: News? {
         guard !heroArticles.isEmpty else { return nil }
         let safeIndex = min(max(selectedIndex, 0), heroArticles.count - 1)
         return heroArticles[safeIndex]
@@ -147,7 +137,7 @@ struct NewsFeedView: View {
                 .foregroundStyle(.secondary)
             
             Button("Try Again") {
-                Task { await viewModel.loadNews(limit: 30) }
+                Task { await viewModel.loadNews() }
             }
             .buttonStyle(.borderedProminent)
         }
@@ -155,18 +145,17 @@ struct NewsFeedView: View {
     }
 }
 
-
 // MARK: - Carousel
 struct ScrollableNewsImagesView: View {
     
-    let articles: [NewsArticleModel]
+    let articles: [News]
     @Binding var selectedIndex: Int
-    let onArticleTap: (NewsArticleModel) -> Void
+    let onArticleTap: (News) -> Void
     
     var body: some View {
         TabView(selection: $selectedIndex) {
             ForEach(Array(articles.enumerated()), id: \.offset) { index, article in
-                NewsHeroImage(urlString: article.image)
+                NewsHeroImage(urlString: article.imageUrl)
                     .frame(height: 270)
                     .padding(.horizontal, 20)
                     .tag(index)
@@ -177,16 +166,14 @@ struct ScrollableNewsImagesView: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .frame(height: 270)
-        
     }
 }
 
-
-// MARK: - Hero Card (3 satır summary)
+// MARK: - Hero Card
 struct NewsTitleBoxView: View {
-    let article: NewsArticleModel?
+    let article: News?
     let cardWidth: CGFloat
-    let onArticleTap: (NewsArticleModel) -> Void
+    let onArticleTap: (News) -> Void
     
     var body: some View {
         if let article {
@@ -197,9 +184,11 @@ struct NewsTitleBoxView: View {
                     .lineLimit(3)
                 
                 HStack(spacing: 10) {
-                    Text(article.source)
+                    if let source = article.source {
+                        Text(source)
+                    }
                     Text("•")
-                    Text(article.publishedAt.prettyNewsDate)
+                    Text(article.publishedAt.formatted(date: .abbreviated, time: .omitted))
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -214,13 +203,11 @@ struct NewsTitleBoxView: View {
     }
 }
 
-
-
 // MARK: - Other News List
 struct OtherNewsListView: View {
     
     @ObservedObject var viewModel: NewsViewModel
-    let onArticleTap: (NewsArticleModel) -> Void
+    let onArticleTap: (News) -> Void
     
     var body: some View {
         VStack(spacing: 12) {
@@ -235,13 +222,12 @@ struct OtherNewsListView: View {
     }
 }
 
-
 struct OtherNewsRow: View {
-    let article: NewsArticleModel
+    let article: News
     
     var body: some View {
         HStack(spacing: 12) {
-            NewsThumb(urlString: article.image)
+            NewsThumb(urlString: article.imageUrl)
                 .frame(width: 80, height: 60)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             
@@ -252,9 +238,11 @@ struct OtherNewsRow: View {
                     .lineLimit(3)
                 
                 HStack(spacing: 8) {
-                    Text(article.source)
+                    if let source = article.source {
+                        Text(source)
+                    }
                     Text("•")
-                    Text(article.publishedAt.prettyNewsDate)
+                    Text(article.publishedAt.formatted(date: .abbreviated, time: .omitted))
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -271,7 +259,6 @@ struct OtherNewsRow: View {
 }
 
 // MARK: - Thumbnails / Images
-
 struct NewsThumb: View {
     let urlString: String?
     
@@ -340,7 +327,6 @@ struct NewsHeroImage: View {
 }
 
 // MARK: - Divider
-
 struct NewsDivider: View {
     var body: some View {
         Rectangle()
@@ -351,7 +337,6 @@ struct NewsDivider: View {
 }
 
 // MARK: - Safari Sheet
-
 extension URL: @retroactive Identifiable {
     public var id: String { absoluteString }
 }

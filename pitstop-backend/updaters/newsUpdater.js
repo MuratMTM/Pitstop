@@ -1,58 +1,69 @@
-const axios = require('axios');
+const Parser = require('rss-parser');
+const parser = new Parser({
+  customFields: {
+    item: [
+      ['media:content', 'media'],
+      ['enclosure', 'enclosure'],
+      ['description', 'description']
+    ]
+  }
+});
+
 const News = require('../models/news');
 
 async function updateNews() {
   try {
-    console.log('Fotoğraflı F1 haberleri çekiliyor... (NewsAPI.org)');
+    
+    console.log('F1 haberleri çekiliyor... (Autosport.com F1 RSS)');
 
-    const apiKey = process.env.NEWSAPI_KEY;
-    if (!apiKey) {
-      console.error('❌ NEWSAPI_KEY .env dosyasında tanımlı değil!');
-      return;
-    }
+    const feed = await parser.parseURL('https://www.autosport.com/rss/f1/news');
 
-    const response = await axios.get('https://newsapi.org/v2/everything', {
-      params: {
-        q: 'Formula 1 OR F1 OR "Grand Prix" -football', // Futbol haberlerini hariç tut
-        language: 'en',
-        sortBy: 'publishedAt',
-        pageSize: 50, // Daha fazla haber çekelim
-        apiKey: apiKey
-      },
-      timeout: 15000
-    });
+    const scrapedNews = [];
 
-    if (response.data.status !== 'ok') {
-      console.error('NewsAPI hata döndü:', response.data.message);
-      return;
-    }
+    for (let item of feed.items) {
+      let imageUrl = null;
 
-    const articles = response.data.articles;
-
-    let savedCount = 0;
-
-    for (let item of articles) {
-      // Sadece fotoğraflı ve başlıklı haberleri kaydet
-      if (item.urlToImage && item.title && item.url) {
-        await News.findOneAndUpdate(
-          { url: item.url },
-          {
-            title: item.title,
-            summary: item.description || '',
-            url: item.url,
-            imageUrl: item.urlToImage,
-            publishedAt: new Date(item.publishedAt),
-            source: item.source.name || 'NewsAPI'
-          },
-          { upsert: true }
-        );
-        savedCount++;
+      // Görseli farklı yerlerden dene
+      if (item.enclosure && item.enclosure.url) {
+        imageUrl = item.enclosure.url;
+      } else if (item.media && item.media['$'] && item.media['$'].url) {
+        imageUrl = item.media['$'].url;
+      } else if (item.content && item.content.includes('<img')) {
+        const match = item.content.match(/src=["']([^"']+)["']/);
+        if (match) imageUrl = match[1];
       }
+
+      scrapedNews.push({
+        title: item.title || 'F1 Haberi',
+        summary: item.contentSnippet || item.summary || '',
+        url: item.link,
+        imageUrl: imageUrl,
+        publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
+        source: 'Autosport F1'
+      });
     }
 
-    console.log(`✅ ${savedCount} fotoğraflı F1 haberi başarıyla kaydedildi`);
+    // En yeni 30 haber
+    const latestNews = scrapedNews.slice(0, 30);
+
+    for (let item of latestNews) {
+      await News.findOneAndUpdate(
+        { url: item.url },
+        {
+          title: item.title,
+          summary: item.summary,
+          url: item.url,
+          imageUrl: item.imageUrl,
+          publishedAt: item.publishedAt,
+          source: item.source
+        },
+        { upsert: true }
+      );
+    }
+
+    console.log(`✅ ${latestNews.length} gerçek F1 haberi kaydedildi (Autosport RSS)`);
   } catch (error) {
-    console.error('❌ Haber çekilirken hata:', error.message);
+    console.error('❌ F1 haber hatası:', error.message);
   }
 }
 

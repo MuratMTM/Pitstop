@@ -1,30 +1,25 @@
 import Foundation
 
 @MainActor
-
-final class NewsViewModel: ObservableObject{
-    @Published var articles: [NewsArticleModel] = []
+final class NewsViewModel: ObservableObject {
+    @Published var articles: [News] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
-    private let service: NewsServiceProtocol
+    private let service = NewsService.shared
     
-    init(service: NewsServiceProtocol = NewsService()) {
-        self.service = service
-    }
-    
-    func loadNews(limit: Int = 20) async {
+    func loadNews() async {
         isLoading = true
         errorMessage = nil
         
         do {
-            let fetchedArticles = try await service.fetchNews(limit: limit)
+            let fetchedArticles = try await service.fetchNews()
             self.articles = fetchedArticles
-            
-        } catch  {
-            self.errorMessage = "News could not be loaded."
+        } catch {
+            self.errorMessage = "Failed to load news."
+            print("News fetch error:", error)
         }
+        
         isLoading = false
     }
 }
-

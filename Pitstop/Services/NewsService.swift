@@ -1,29 +1,17 @@
 import Foundation
 
-protocol NewsServiceProtocol {
-    func fetchNews(limit: Int) async throws -> [NewsArticleModel]
-}
-
-final class NewsService: NewsServiceProtocol {
+class NewsService {
+    static let shared = NewsService()
     
-    private let baseURL = "http://localhost:3000/api/news"
-    private let networkService: NetworkService
+    private init() {}
     
-    init(networkService: NetworkService = .shared) {
-        self.networkService = networkService
-    }
-    
-    func fetchNews(limit: Int) async throws -> [NewsArticleModel] {
-        guard let url = URL(string: "\(baseURL)?limit=\(limit)") else {
+    func fetchNews() async throws -> [News] {
+        guard let url = URL.apiURL(endpoint: APIConstants.Endpoints.news) else {
             throw NetworkError.badURL
         }
         
-        let response = try await networkService.fetch(
-            NewsModelResponse.self,
-            from: url
-        )
+        let response: NewsResponse = try await NetworkService.shared.fetch(NewsResponse.self, from: url)
         
-        return response.articles
+        return response.articles.sorted { $0.publishedAt > $1.publishedAt }
     }
 }
-
