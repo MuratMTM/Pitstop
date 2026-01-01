@@ -16,46 +16,37 @@ struct TeamListView: View {
                             .padding(.top,60)
                         
                         if viewModel.isLoading {
-                            VStack {
-                                Spacer() /
-                                
-                                ProgressView("Loading teams...")
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(1.5)
-                                    .foregroundStyle(.white)
-                                
-                                Spacer() 
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Spacer()
+                            
+                            ProgressView("Loading teams...")
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.5)
+                                .foregroundStyle(.white)
+                            
+                            Spacer()
                         } else if let error = viewModel.errorMessage {
-                            VStack {
-                                Spacer()
-                                
-                                Text(error)
-                                    .foregroundStyle(.red)
-                                    .font(.title2)
-                                    .multilineTextAlignment(.center)
-                                    .padding()
-                                
-                                Spacer()
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Spacer()
+                            
+                            Text(error)
+                                .foregroundStyle(.red)
+                                .font(.title2)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                            
+                            Spacer()
                         } else if viewModel.teams.isEmpty {
-                            VStack {
-                                Spacer()
-                                
-                                Text("No teams available.")
-                                    .foregroundStyle(.secondary)
-                                    .font(.title2)
-                                
-                                Spacer()
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Spacer()
+                            
+                            Text("No teams available.")
+                                .foregroundStyle(.secondary)
+                                .font(.title2)
+                            
+                            Spacer()
                         } else {
                             ForEach(viewModel.teams) { team in
                                 TeamCard(team: team)
                                     .padding(.horizontal, 20)
                             }
-                        }
                         }
                     }
                     .padding(.bottom, 40)

@@ -27,7 +27,7 @@ async function updateTeams() {
       ferrari: 'https://pitstop-backend-44xo.onrender.com/images/teams/ferrari-logo.png',
       red_bull: 'https://pitstop-backend-44xo.onrender.com/images/teams/red_bull-logo.png',
       mercedes: 'https://pitstop-backend-44xo.onrender.com/images/teams/mercedes-logo.png',
-      aston_martin: 'https://pitstop-backend-44xo.onrender.com/images/teams/astonmartin-logo.png',
+      aston_martin: 'https://pitstop-backend-44xo.onrender.com/images/teams/aston_martin-logo.png',
       alpine: 'https://pitstop-backend-44xo.onrender.com/images/teams/alpine-logo.png',
       rb: 'https://pitstop-backend-44xo.onrender.com/images/teams/rb-logo.png',
       haas: 'https://pitstop-backend-44xo.onrender.com/images/teams/haas-logo.png',
@@ -41,7 +41,7 @@ async function updateTeams() {
       ferrari: 'https://pitstop-backend-44xo.onrender.com/images/teams/ferrari-car.png',
       red_bull: 'https://pitstop-backend-44xo.onrender.com/images/teams/red_bull-car.png',
       mercedes: 'https://pitstop-backend-44xo.onrender.com/images/teams/mercedes-car.png',
-      aston_martin: 'https://pitstop-backend-44xo.onrender.com/images/teams/astonmartin-car.png',
+      aston_martin: 'https://pitstop-backend-44xo.onrender.com/images/teams/aston_martin-car.png',
       alpine: 'https://pitstop-backend-44xo.onrender.com/images/teams/alpine-car.png',
       rb: 'https://pitstop-backend-44xo.onrender.com/images/teams/rb-car.png',
       haas: 'https://pitstop-backend-44xo.onrender.com/images/teams/haas-car.png',
@@ -49,20 +49,20 @@ async function updateTeams() {
       sauber: 'https://pitstop-backend-44xo.onrender.com/images/teams/sauber-car.png'
     };
 
-    const nationalityToCode = {
-      'Great Britain': 'gb',
-      'Italy': 'it',
-      'Germany': 'de',
-      'France': 'fr',
-      'Switzerland': 'ch',
-      'United States': 'us',
-      'Austria': 'at'
-    };
+    const flagUrls = {
+    'Great Britain': 'https://countryflagsapi.com/png/gb',
+    'Italy': 'https://countryflagsapi.com/png/it',
+    'Germany': 'https://countryflagsapi.com/png/de',
+    'France': 'https://countryflagsapi.com/png/fr',
+    'Switzerland': 'https://countryflagsapi.com/png/ch',
+    'United States': 'https://countryflagsapi.com/png/us',
+    'Austria': 'https://countryflagsapi.com/png/at'
+};
 
     for (let item of championship) {
       const teamData = item.team || {};
       const countryCode = nationalityToCode[teamData.country || teamData.teamNationality || ''] || 'xx';
-      const flagUrl = countryCode !== 'xx' ? `https://flagcdn.com/w64/${countryCode}.png` : null;
+      const flagUrl = flagUrls[teamData.country || teamData.teamNationality] || null;
       const teamColor = teamColors[item.teamId] || '#000000';
 
       await Team.findOneAndUpdate(
