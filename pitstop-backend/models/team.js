@@ -15,7 +15,8 @@ const teamSchema = new mongoose.Schema({
 
   teamColor: { type: String },                          
   flagUrl: { type: String },                           
-  carImageUrl: { type: String }                          
+  carImageUrl: { type: String }, 
+  teamLogoUrl: { type: String }                         
 }, { timestamps: true });
 
 module.exports = mongoose.model('Team', teamSchema);

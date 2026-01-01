@@ -1,7 +1,7 @@
 import Foundation
 
-struct Team: Codable, Identifiable {
-    let id = UUID() 
+struct Team: Decodable, Identifiable {
+    let id = UUID()
     let teamId: String
     let teamName: String
     let teamNationality: String?
@@ -17,6 +17,7 @@ struct Team: Codable, Identifiable {
     let teamColor: String?
     let flagUrl: String?
     let carImageUrl: String?
+    let teamLogoUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case teamId
@@ -32,5 +33,6 @@ struct Team: Codable, Identifiable {
         case teamColor
         case flagUrl
         case carImageUrl
+        case teamLogoUrl
     }
 }

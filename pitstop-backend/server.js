@@ -2,6 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 require('dotenv').config({ path: '../.env' });;
 const cors = require('cors');
+const path = require('path');
+
+const { updateDrivers } = require('./updaters/driverUpdater');
+const { updateTeams } = require('./updaters/teamUpdater');
+const { updateCircuits } = require('./updaters/circuitUpdater');
+const { updateRaces } = require('./updaters/raceUpdater');
+const { updateNews } = require('./updaters/newsUpdater');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors()); 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB başarıyla bağlandı! pitstopdb hazır ✅'))
@@ -35,23 +43,55 @@ app.get("/health", (req, res) => {
 });
 
 
-const { updateDrivers } = require('./updaters/driverUpdater');
-updateDrivers(); 
-const { updateTeams } = require('./updaters/teamUpdater');
-updateTeams();
+async function runUpdaters() {
+  console.log('Updater\'lar sırayla başlıyor...');
+  
+  try {
+    await updateDrivers();
+    console.log('Drivers tamam');
+  } catch (e) {
+    console.error('Drivers hatası:', e.message);
+  }
+  
+  try {
+    await updateTeams();
+    console.log('Teams tamam');
+  } catch (e) {
+    console.error('Teams hatası:', e.message);
+  }
+  
+  try {
+    await updateCircuits();
+    console.log('Circuits tamam');
+  } catch (e) {
+    console.error('Circuits hatası:', e.message);
+  }
+  
+  try {
+    await updateRaces();
+    console.log('Races tamam');
+  } catch (e) {
+    console.error('Races hatası:', e.message);
+  }
+  
+  try {
+    await updateNews();
+    console.log('News tamam');
+  } catch (e) {
+    console.error('News hatası:', e.message);
+  }
+  
+  console.log('Tüm updater\'lar tamamlandı!');
+}
 
-const { updateNews } = require('./updaters/newsUpdater');
-updateNews();
-
-const { updateCircuits } = require('./updaters/circuitUpdater');
-updateCircuits();
-
-const { updateRaces } = require('./updaters/raceUpdater');
-updateRaces();
+runUpdaters();
 
 
 app.listen(PORT, () => {
   console.log(`🚀 Pitstop backend running on port ${PORT}`);
   console.log(`- News: http://localhost:${PORT}/api/news`);
   console.log(`- Drivers: http://localhost:${PORT}/api/drivers`);
+   console.log(`- Drivers: http://localhost:${PORT}/api/teams`);
+    console.log(`- Drivers: http://localhost:${PORT}/api/circuits`);
+     console.log(`- Drivers: http://localhost:${PORT}/api/races`);
 });
