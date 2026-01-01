@@ -49,42 +49,41 @@ async function updateTeams() {
       sauber: 'https://pitstop-backend-44xo.onrender.com/images/teams/sauber-car.png'
     };
 
-    const flagUrls = {
-    'Great Britain': 'https://countryflagsapi.com/png/gb',
-    'Italy': 'https://countryflagsapi.com/png/it',
-    'Germany': 'https://countryflagsapi.com/png/de',
-    'France': 'https://countryflagsapi.com/png/fr',
-    'Switzerland': 'https://countryflagsapi.com/png/ch',
-    'United States': 'https://countryflagsapi.com/png/us',
-    'Austria': 'https://countryflagsapi.com/png/at'
+    
+  const flagUrls = {
+  'Great Britain': 'https://flagcdn.com/w320/gb.png',
+  'Italy': 'https://flagcdn.com/w320/it.png',
+  'Germany': 'https://flagcdn.com/w320/de.png',
+  'France': 'https://flagcdn.com/w320/fr.png',
+  'Switzerland': 'https://flagcdn.com/w320/ch.png',
+  'United States': 'https://flagcdn.com/w320/us.png',
+  'Austria': 'https://flagcdn.com/w320/at.png'
 };
 
-    for (let item of championship) {
-      const teamData = item.team || {};
-      const countryCode = nationalityToCode[teamData.country || teamData.teamNationality || ''] || 'xx';
-      const flagUrl = flagUrls[teamData.country || teamData.teamNationality] || null;
-      const teamColor = teamColors[item.teamId] || '#000000';
+for (let item of championship) {
+  const teamData = item.team || {};
+  const teamColor = teamColors[item.teamId] || '#000000';
 
-      await Team.findOneAndUpdate(
-        { teamId: item.teamId },
-        {
-          teamName: teamData.teamName || item.teamId.replace(/_/g, ' ').toUpperCase(),
-          teamNationality: teamData.country || '',
-          firstAppeareance: teamData.firstAppareance || teamData.firstAppearance,
-          constructorsChampionships: teamData.constructorsChampionships || 0,
-          driversChampionships: teamData.driversChampionships || 0,
-          url: teamData.url,
-          points: item.points || 0,
-          position: item.position || 999,
-          wins: item.wins || 0,
-          teamColor: teamColor,
-          flagUrl: flagUrl,
-          teamLogoUrl: teamLogos[item.teamId] || null,
-          carImageUrl: carImages[item.teamId] || null 
-        },
-        { upsert: true }
-      );
-    }
+  await Team.findOneAndUpdate(
+    { teamId: item.teamId },
+    {
+      teamName: teamData.teamName || item.teamId.replace(/_/g, ' ').toUpperCase(),
+      teamNationality: teamData.country || '',
+      firstAppeareance: teamData.firstAppareance || teamData.firstAppearance,
+      constructorsChampionships: teamData.constructorsChampionships || 0,
+      driversChampionships: teamData.driversChampionships || 0,
+      url: teamData.url,
+      points: item.points || 0,
+      position: item.position || 999,
+      wins: item.wins || 0,
+      teamColor: teamColor,
+      flagUrl: flagUrls[teamData.country || teamData.teamNationality || ''] || null,
+      teamLogoUrl: teamLogos[item.teamId] || null,
+      carImageUrl: carImages[item.teamId] || null
+    },
+    { upsert: true }
+  );
+}
 
     console.log(`✅ ${championship.length} takım başarıyla güncellendi (statik logo + araç resmi dahil)`);
   } catch (error) {
