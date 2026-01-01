@@ -1,50 +1,51 @@
 import SwiftUI
 
 struct TeamListView: View {
-    @StateObject private var vm = TeamViewModel()
+    @StateObject private var viewModel = TeamViewModel()
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color.lightBackground.ignoresSafeArea()
-                
-                if vm.isLoading {
-                    ProgressView()
-                } else if let error = vm.errorMessage {
-                    VStack(spacing: 8) {
-                        Text("An error occurred")
-                            .font(.headline)
-                        Text(error)
-                            .font(.caption)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.secondary)
-                        Button("Try again") {
-                            Task { await vm.loadTeams() }
-                        }
-                        .padding(.top, 8)
-                    }
-                    .padding()
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(vm.teams) { team in
-                                TeamCardView(team: team)
+            ZStack(alignment: .top) {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        Text("Teams")
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
+                            .foregroundStyle(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20)
+                            .padding(.top,60)
+                        
+                        if viewModel.isLoading {
+                            ProgressView("Loading teams...")
+                                .padding(.top, 40)
+                        } else if let error = viewModel.errorMessage {
+                            Text(error)
+                                .foregroundStyle(.red)
+                                .padding(.top, 40)
+                        } else if viewModel.teams.isEmpty {
+                            Text("No teams available.")
+                                .foregroundStyle(.secondary)
+                                .padding(.top, 40)
+                        } else {
+                            ForEach(viewModel.teams) { team in
+                                TeamCard(team: team)
+                                    .padding(.horizontal, 20)
                             }
                         }
-                        .padding(.horizontal)
-                        .padding(.top, 16)
-                        .padding(.bottom, 32)
                     }
+                    .padding(.bottom, 40)
                 }
+                .ignoresSafeArea(edges: .top)
+                
+                PitstopHeaderView()
             }
-            .navigationTitle("Teams")
-            .navigationBarTitleDisplayMode(.large)
             .task {
-                await vm.loadTeams()
+                await viewModel.loadTeams()
             }
         }
     }
 }
+
 
 
 #Preview {

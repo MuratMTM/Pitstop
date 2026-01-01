@@ -1,48 +1,25 @@
 import Foundation
 
 @MainActor
-class TeamViewModel: ObservableObject {
-    @Published var teams: [TeamModel] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+final class TeamViewModel: ObservableObject {
+    @Published var teams: [Team] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String? = nil
     
-    private let service: TeamServiceProtocol
-    private let imageService = ImageService()
-    
-    init(service: TeamServiceProtocol = TeamService()){
-        self.service = service
-    }
+    private let service = TeamService.shared
     
     func loadTeams() async {
         isLoading = true
         errorMessage = nil
         
         do {
-            var result = try await service.fetchTeams()
-            
-            await withTaskGroup(of: (Int, String?).self) { group in
-                for index in result.indices {
-                    group.addTask { [self] in
-                        let teams = result[index]
-                    
-                        let path = "teams/\(teams.teamId).png"
-                        
-                        let imageURL = await imageService.getImageURL(path: path)
-                        return (index, imageURL)
-                    }
-                }
-                
-                for await (index, imageURL) in group {
-                    result[index].imageURL = imageURL
-                }
-            }
-            
-            self.teams = result
-        } catch  {
-            self.errorMessage = error.localizedDescription 
+            let fetchedTeams = try await service.fetchTeams()
+            self.teams = fetchedTeams
+        } catch {
+            self.errorMessage = "Failed to load teams."
+            print("Team fetch error:", error)
         }
+        
         isLoading = false
     }
 }
-
-

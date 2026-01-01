@@ -1,103 +1,109 @@
 import SwiftUI
 
-struct TeamCardView: View {
-    let team: TeamModel
+// MARK: - Team Card
+struct TeamCard: View {
+    let team: Team
     
     var body: some View {
-        let colors = F1Styling.getColors(for: team.teamId)
-        
         ZStack {
+           
+            LinearGradient(
+                colors: [
+                    Color(hex: team.teamColor ?? "#333333").opacity(0.9),
+                    Color(hex: team.teamColor ?? "#333333").opacity(0.4)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 24))
             
-            RoundedRectangle(cornerRadius: 26)
-                .fill(
-                    LinearGradient(
-                        colors: [colors.vibrant, colors.background],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .shadow(color: colors.vibrant.opacity(0.35), radius: 12, y: 6)
+            HStack(spacing: 0) {
             
-            
-            Text(team.teamName)
-                .font(.system(size: 36, weight: .black))
-                .foregroundColor(.white.opacity(0.06))
-                .rotationEffect(.degrees(-18))
-                .offset(x: 40, y: 28)
-            
-            
-            if let urlString = team.imageURL,
-               let url = URL(string: urlString) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let img):
-                        img.resizable()
-                            .scaledToFit()
-                    default:
-                        Color.clear
-                    }
-                }
-                .frame(width: 240, height: 135)
-                .opacity(0.60)
-                .offset(x: 100, y: 10)
-            }
-            
-            
-            HStack {
-                VStack(alignment: .leading, spacing: 10) {
-                    
-                    
+                VStack(alignment: .leading, spacing: 12) {
                     Text(team.teamName)
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.white)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
                     
-                    
-                    Text("\(team.teamNationality) • Since "+String(team.firstAppearance))
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(.white.opacity(0.85))
-                    
-                    
-                    
-                    Divider()
-                        .background(Color.white.opacity(0.25))
-                    
-                    HStack(spacing: 12) {
-                        StatBadge(title: "WCC",
-                                  value: team.constructorsChampionships ?? 0)
-                        StatBadge(title: "WDC",
-                                  value: team.driversChampionships ?? 0)
+                
+                    HStack(spacing: 24) {
+                        HStack(spacing: 8) {
+                            Text("🏆")
+                                .font(.title2)
+                            Text("\(team.constructorsChampionships)")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                        }
+                        
+                        HStack(spacing: 8) {
+                            Text("🏅")
+                                .font(.title2)
+                            Text("\(team.driversChampionships)")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                        }
+                    }
+                    .foregroundStyle(.white)
+       
+                    if let first = team.firstAppeareance {
+                        HStack(spacing: 8) {
+                            Text("📅")
+                                .font(.title3)
+                            Text("\(first)")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                        }
+                        .foregroundStyle(.white.opacity(0.9))
                     }
                     
-                    Spacer(minLength: 0)
+            
+                    HStack(spacing: 10) {
+                        if let flagUrl = team.flagUrl, let url = URL(string: flagUrl) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            } placeholder: {
+                                Circle().fill(.gray.opacity(0.3))
+                            }
+                            .frame(width: 30, height: 20)
+                            .clipShape(Circle())
+                        }
+                        
+                        Text(team.teamNationality ?? "Unknown")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
                 }
+                .padding(.leading, 24)
+                .padding(.vertical, 24)
                 
                 Spacer()
+                
+                if let carUrl = team.carImageUrl, let url = URL(string: carUrl) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .scaleEffect(1.2)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 160)
+                        case .failure:
+                            Image(systemName: "car.fill")
+                                .font(.system(size: 80))
+                                .foregroundStyle(.white.opacity(0.6))
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                    .padding(.trailing, 20)
+                }
             }
-            .padding(20)
         }
-        .frame(height: 180)
+        .frame(height: 260)
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
     }
 }
-
-private struct StatBadge: View {
-    let title: String
-    let value: Int
-    
-    var body: some View {
-        HStack(spacing: 6) {
-            Text(title)
-                .font(.caption2.bold())
-            Text("\(value)")
-                .font(.caption.bold())
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(Color.white.opacity(0.2))
-        .foregroundColor(.white)
-        .cornerRadius(8)
-    }
-}
-
-

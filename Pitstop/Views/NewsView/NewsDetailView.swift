@@ -2,9 +2,10 @@ import SwiftUI
 import SafariServices
 
 struct NewsDetailView: View {
-    let article: News  
+    let article: News
     
     @State private var showSafari = false
+    @State private var showShareSheet = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -12,37 +13,43 @@ struct NewsDetailView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     
                     heroImage
-                        .frame(height: 280)
+                        .frame(height: 320)
                         .padding(.top, 118)
                     
-                    VStack(alignment: .leading, spacing: 18) {
+                    VStack(alignment: .leading, spacing: 20) {
                         
                         Text(article.title)
-                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                            .font(.system(size: 26, weight: .bold, design: .rounded))
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                         
                         HStack(spacing: 8) {
                             Text(article.source ?? "Autosport")
-                                .fontWeight(.bold)
+                                .fontWeight(.semibold)
                             Text("•")
                             Text(article.publishedAt.formatted(date: .abbreviated, time: .omitted))
                         }
-                        .padding(.horizontal, 8)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         
                         if let summary = article.summary, !summary.isEmpty {
                             Text(summary)
-                                .font(.system(size: 19))
-                                .lineSpacing(7)
+                                .font(.system(size: 17, weight: .regular))
+                                .lineSpacing(8) // Profesyonel satır aralığı
                                 .foregroundStyle(.primary)
+                                .multilineTextAlignment(.leading)
+                        } else {
+                            Text("No summary available.")
+                                .font(.system(size: 17))
+                                .foregroundStyle(.secondary)
+                                .italic()
                         }
                     }
-                    .padding(20)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
                     
                     readFullButton
-                        .padding(.top, 20)
+                        .padding(.top, 30)
                         .padding(.bottom, 40)
                     
                     Spacer(minLength: 100)
@@ -51,10 +58,25 @@ struct NewsDetailView: View {
             .ignoresSafeArea(edges: .top)
             
             PitstopHeaderView()
+                .overlay(alignment: .trailing) {
+                    Button(action: {
+                        showShareSheet = true
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .padding(.trailing, 20)
+                    }
+                }
         }
         .sheet(isPresented: $showSafari) {
             if let url = URL(string: article.url) {
                 SafariView(url: url)
+            }
+        }
+        .sheet(isPresented: $showShareSheet) {
+            if let url = URL(string: article.url) {
+                ShareSheet(activityItems: [article.title, url])
             }
         }
     }
@@ -80,8 +102,7 @@ struct NewsDetailView: View {
                             .foregroundStyle(.secondary)
                     )
             @unknown default:
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
+                EmptyView()
             }
         }
         .clipped()
@@ -94,12 +115,12 @@ struct NewsDetailView: View {
         } label: {
             HStack(spacing: 12) {
                 Text("Read more on \(article.source ?? "Autosport")")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 17, weight: .bold))
                 
                 Image(systemName: "arrow.right")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 17, weight: .bold))
             }
-            .padding(.horizontal, 18)
+            .padding(.horizontal, 20)
             .frame(maxWidth: .infinity)
             .frame(height: 56)
             .background(Color.red)
@@ -108,7 +129,6 @@ struct NewsDetailView: View {
             .shadow(color: .red.opacity(0.2), radius: 8, x: 0, y: 4)
         }
         .padding(.horizontal, 60)
-        .padding(.bottom, 10)
         .background(
             LinearGradient(
                 colors: [.clear, Color(.systemBackground).opacity(0.8), Color(.systemBackground)],
@@ -120,4 +140,13 @@ struct NewsDetailView: View {
     }
 }
 
-
+// MARK: - Share Sheet
+struct ShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
