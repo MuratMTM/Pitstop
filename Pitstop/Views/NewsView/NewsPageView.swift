@@ -40,6 +40,9 @@ struct NewsPageView: View {
                     await viewModel.loadNews()
                 }
             }
+            .navigationDestination(item: $selectedArticle) { article in
+                NewsDetailView(article: article)
+            }
             
         }
     }

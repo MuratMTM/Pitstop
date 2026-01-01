@@ -2,7 +2,7 @@ import SwiftUI
 import SafariServices
 
 struct NewsDetailView: View {
-    let article: News  // Artık NewsArticleModel değil, News
+    let article: News  
     
     @State private var showSafari = false
     
