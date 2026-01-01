@@ -77,7 +77,7 @@ struct TeamCard: View {
                     }
                 }
                 .padding(.leading, 24)
-                .padding(.vertical, 24)
+                .padding(.vertical, 21)
                 
                 Spacer()
                 
@@ -100,7 +100,7 @@ struct TeamCard: View {
                             }
                         }
                         .frame(width: 120, height: 120)
-                        .offset(x: 20, y: -20)
+                        .offset(x: 20, y: 18)
                     }
                     
             
@@ -129,7 +129,7 @@ struct TeamCard: View {
                 .padding(.vertical, 24)
             }
         }
-        .frame(height: 210)
+        .frame(height: 225)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 6)
         .padding(.horizontal, 16)
