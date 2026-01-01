@@ -184,9 +184,7 @@ struct NewsTitleBoxView: View {
                     .lineLimit(3)
                 
                 HStack(spacing: 10) {
-                    if let source = article.source {
-                        Text(source)
-                    }
+                    Text(article.source ?? "Autosport")
                     Text("•")
                     Text(article.publishedAt.formatted(date: .abbreviated, time: .omitted))
                 }
@@ -238,9 +236,7 @@ struct OtherNewsRow: View {
                     .lineLimit(3)
                 
                 HStack(spacing: 8) {
-                    if let source = article.source {
-                        Text(source)
-                    }
+                    Text(article.source ?? "Autosport")
                     Text("•")
                     Text(article.publishedAt.formatted(date: .abbreviated, time: .omitted))
                 }
