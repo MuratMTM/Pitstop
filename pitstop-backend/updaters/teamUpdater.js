@@ -49,6 +49,60 @@ async function updateTeams() {
       sauber: 'https://pitstop-backend-44xo.onrender.com/images/teams/sauber-car.png'
     };
 
+const staticTeamData = {
+  mclaren: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/mclaren-diagonal.jpeg', 
+    backgroundColorHex: '#F9883E',
+    cardGradientHex: ['#F9883E', '#E81C25', '#448BF2']
+  },
+  ferrari: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/ferrari-diagonal.jpeg',
+    backgroundColorHex: '#E81C25',
+    cardGradientHex: ['#E81C25', '#113264', '#FF9E44']
+  },
+  red_bull: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/red_bull-diagonal.jpeg',
+    backgroundColorHex: '#448BF2',
+    cardGradientHex: ['#448BF2', '#FE3131', '#F6F7F9']
+  },
+  mercedes: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/mercedes-diagonal.jpeg',
+    backgroundColorHex: '#113264',
+    cardGradientHex: ['#113264', '#FF9E44', '#FE3131']
+  },
+  aston_martin: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/aston_martin-diagonal.jpeg',
+    backgroundColorHex: '#FF9E44',
+    cardGradientHex: ['#FF9E44', '#FE3131', '#F6F7F9']
+  },
+  alpine: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/alpine-diagonal.jpeg',
+    backgroundColorHex: '#FE3131',
+    cardGradientHex: ['#FE3131', '#F6F7F9', '#000000']
+  },
+  rb: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/rb-diagonal.jpeg',
+    backgroundColorHex: '#F6F7F9',
+    cardGradientHex: ['#F6F7F9', '#000000', '#F9883E']
+  },
+  haas: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/haas-diagonal.jpeg',
+    backgroundColorHex: '#000000',
+    cardGradientHex: ['#000000', '#F9883E', '#E81C25']
+  },
+  williams: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/williams-diagonal.jpeg',
+    backgroundColorHex: '#F9883E',
+    cardGradientHex: ['#F9883E', '#E81C25', '#448BF2']
+  },
+  sauber: {
+    diagonalCarImageUrl: 'https://pitstop-backend-44xo.onrender.com/images/teams/sauber-diagonal.jpeg',
+    backgroundColorHex: '#E81C25',
+    cardGradientHex: ['#E81C25', '#448BF2', '#113264']
+  }
+};
+    
+
     
   const flagUrls = {
   'Great Britain': 'https://flagcdn.com/w320/gb.png',
@@ -63,6 +117,7 @@ async function updateTeams() {
 for (let item of championship) {
   const teamData = item.team || {};
   const teamColor = teamColors[item.teamId] || '#000000';
+  const staticData = staticTeamData[item.teamId] || {};
 
   await Team.findOneAndUpdate(
     { teamId: item.teamId },
@@ -79,7 +134,10 @@ for (let item of championship) {
       teamColor: teamColor,
       flagUrl: flagUrls[teamData.country || teamData.teamNationality || ''] || null,
       teamLogoUrl: teamLogos[item.teamId] || null,
-      carImageUrl: carImages[item.teamId] || null
+      carImageUrl: carImages[item.teamId] || null,
+      diagonalCarImageUrl: staticData.diagonalCarImageUrl || null,
+    backgroundColorHex: staticData.backgroundColorHex || '#000000',
+    cardGradientHex: staticData.cardGradientHex || ['#000000', '#000000']
     },
     { upsert: true }
   );

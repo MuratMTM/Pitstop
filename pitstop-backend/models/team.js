@@ -16,7 +16,12 @@ const teamSchema = new mongoose.Schema({
   teamColor: { type: String },                          
   flagUrl: { type: String },                           
   carImageUrl: { type: String }, 
-  teamLogoUrl: { type: String }                         
+  teamLogoUrl: { type: String } ,
+  
+ 
+diagonalCarImageUrl: { type: String },
+backgroundColorHex: { type: String },
+cardGradientHex: { type: Array }  
 }, { timestamps: true });
 
 module.exports = mongoose.model('Team', teamSchema);
