@@ -1,22 +1,25 @@
 import Foundation
 
-
-protocol DriverServiceProtocol{
-    func fetchDrivers()  async throws -> [DriverModel]
+protocol DriverServiceProtocol {
+    func fetchDrivers() async throws -> [Driver]
 }
 
-
-final class DriverService:DriverServiceProtocol{
+final class DriverService: DriverServiceProtocol {
+    
+    static let shared = DriverService()
     
     private let network = NetworkService.shared
-    private let baseUrl = "https://f1api.dev/api/current/drivers"
     
-    func fetchDrivers()  async throws -> [DriverModel] {
-        guard let url =  URL(string: baseUrl) else{
+    private init() {}
+    
+    func fetchDrivers() async throws -> [Driver] {
+        guard let url = URL.apiURL(endpoint: APIConstants.Endpoints.drivers) else {
             throw NetworkError.badURL
         }
         
-        let response = try await network.fetch(DriverResponse.self, from: url)
-        return response.drivers
+        let drivers = try await network.fetch([Driver].self, from: url)
+        
+
+        return drivers.sorted { ($0.position ?? 999) < ($1.position ?? 999) }
     }
 }

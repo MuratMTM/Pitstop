@@ -10,16 +10,16 @@ async function updateDrivers() {
     const championship = response.data.drivers_championship; 
 
     const teamColors = {
-      mclaren: '#FF8700',        // Papaya turuncu
-      ferrari: '#E10600',        // Ferrari kırmızı
-      red_bull: '#3671C6',       // Red Bull mavi
-      mercedes: '#00D2BE',       // Mercedes turkuaz
-      aston_martin: '#006F62',   // Aston Martin yeşil
-      alpine: '#0090FF',         // Alpine mavi
-      rb: '#6692FF',             // RB (Visa Cash App RB) açık mavi
-      haas: '#B6BABD',           // Haas gri (beyaz-gri ton)
-      williams: '#005AFF',       // Williams mavi
-      sauber: '#00FF00'          // Sauber yeşil (2025'te Audi olacak, şimdilik)
+      mclaren: '#FF8700',        
+      ferrari: '#E10600',       
+      red_bull: '#3671C6',       
+      mercedes: '#00D2BE',      
+      aston_martin: '#006F62',   
+      alpine: '#0090FF',        
+      rb: '#6692FF',           
+      haas: '#B6BABD',          
+      williams: '#005AFF',      
+      sauber: '#00FF00'         
     };
 
     const nationalityToCode = {

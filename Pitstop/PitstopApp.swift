@@ -13,7 +13,7 @@ struct PitstopApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TeamListView()
+            DriverListView()
         }
     }
 }

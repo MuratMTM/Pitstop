@@ -7,17 +7,14 @@ struct DriverListView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 24, pinnedViews: []) {
-                    
                     headerView
                     
-                    ForEach(teamIdsInOrder, id: \.self) { teamId in
-                        if let drivers = groupedDrivers[teamId] {
-                            
-                    
-                            teamSectionHeader(teamId)
+                    ForEach(teamNamesInOrder, id: \.self) { teamName in
+                        if let drivers = groupedDrivers[teamName] {
+                            teamSectionHeader(teamName)
                             
                             VStack(spacing: 16) {
-                                ForEach(drivers, id: \.driverId) { driver in
+                                ForEach(drivers) { driver in
                                     DriverCardView(driver: driver)
                                         .padding(.horizontal, 18)
                                 }
@@ -34,19 +31,18 @@ struct DriverListView: View {
     }
 }
 
-
-
 private extension DriverListView {
     
-    var groupedDrivers: [String: [DriverModel]] {
-        Dictionary(grouping: vm.drivers, by: { $0.teamId })
+    var groupedDrivers: [String: [Driver]] {
+        Dictionary(grouping: vm.drivers) { driver in
+            driver.teamName ?? driver.driverId
+        }
     }
     
-    var teamIdsInOrder: [String] {
-        groupedDrivers.keys
-            .sorted { lhs, rhs in
-                F1Styling.teamDisplayName(for: lhs) < F1Styling.teamDisplayName(for: rhs)
-            }
+    var teamNamesInOrder: [String] {
+        groupedDrivers.keys.sorted { lhs, rhs in
+            F1Styling.teamDisplayName(for: lhs) < F1Styling.teamDisplayName(for: rhs)
+        }
     }
     
     var headerView: some View {
@@ -64,88 +60,24 @@ private extension DriverListView {
         .padding(.horizontal, 20)
     }
     
-    func teamSectionHeader(_ teamId: String) -> some View {
-            let colors = F1Styling.getColors(for: teamId)
-            
-            return HStack(spacing: 10) {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(colors.vibrant)
-                    .frame(width: 6)
-                
-                Text(F1Styling.teamDisplayName(for: teamId))
-                    .font(.headline.weight(.semibold))
-                    .foregroundColor(.primary)
-                
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .background(
-                colors.vibrant.opacity(0.08)  
-            )
-            .cornerRadius(12)
-            .padding(.horizontal, 12)
-        }
-    
-    func teamHeader(teamId: String) -> some View {
-        let colors = F1Styling.getColors(for: teamId)
+    func teamSectionHeader(_ teamName: String) -> some View {
+        let colors = F1Styling.getColors(for: teamName)
         
         return HStack(spacing: 10) {
-            Circle()
+            RoundedRectangle(cornerRadius: 4)
                 .fill(colors.vibrant)
-                .frame(width: 10, height: 10)
+                .frame(width: 6)
             
-            Text(F1Styling.teamDisplayName(for: teamId))
-                .font(.subheadline.weight(.semibold))
+            Text(F1Styling.teamDisplayName(for: teamName))
+                .font(.headline.weight(.semibold))
                 .foregroundColor(.primary)
             
             Spacer()
         }
         .padding(.horizontal, 20)
-        .padding(.top, 8)
-        .padding(.bottom, 4)
-        .background(
-            Color(.systemGroupedBackground)
-                .opacity(0.98)
-        )
+        .padding(.vertical, 10)
+        .background(colors.vibrant.opacity(0.08))
+        .cornerRadius(12)
+        .padding(.horizontal, 12)
     }
 }
-
-
-    #Preview {
-        
-        DriverListView()
-        
-    }
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      

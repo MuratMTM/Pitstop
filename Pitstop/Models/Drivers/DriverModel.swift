@@ -1,35 +1,40 @@
-//
-//  Driver.swift
-//  Pitstop
-//
-//  Created by Murat Işık on 21.02.2025.
-//
-
 import Foundation
 
-struct DriverModel: Decodable, Identifiable {
-    var id: String { driverId }
-    
+struct Driver: Codable, Identifiable {
+    let id = UUID()
     let driverId: String
-    let name: String
-    let surname: String
+    let givenName: String
+    let familyName: String
+    let fullName: String
     let nationality: String
-    let birthday: String
-    let number: Int
-    let shortName: String
-    let url: String
-    let teamId: String
+    let birthday: String?
+    let number: Int?
+    let shortName: String?
+    let url: String?
     
-    // App-internal fields
-    var imageURL: String?
-    var flagURL: String?
-}
-
-struct DriverResponse: Decodable {
-    let limit: Int
-    let offset: Int
-    let total: Int
-    let season: Int
-    let championshipId: String
-    let drivers: [DriverModel]
+    let teamName: String?
+    let points: Int
+    let position: Int?
+    
+    let imageUrl: String?
+    let teamColor: String?
+    let flagUrl: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case driverId
+        case givenName
+        case familyName
+        case fullName
+        case nationality
+        case birthday
+        case number
+        case shortName
+        case url
+        case teamName
+        case points
+        case position
+        case imageUrl
+        case teamColor
+        case flagUrl
+    }
 }
