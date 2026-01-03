@@ -6,24 +6,30 @@ struct DriverListView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(spacing: 24, pinnedViews: []) {
+                LazyVStack(alignment: .leading, spacing: 24) {
                     headerView
-                    
+                        .padding(.horizontal, 20)
+
                     ForEach(teamNamesInOrder, id: \.self) { teamName in
                         if let drivers = groupedDrivers[teamName] {
+
                             teamSectionHeader(teamName)
-                            
+                                .padding(.horizontal, 20)
+                                .padding(.top, 6)
+
                             VStack(spacing: 16) {
                                 ForEach(drivers) { driver in
                                     DriverCardView(driver: driver)
-                                        .padding(.all, 18)
                                 }
                             }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 14)
                         }
                     }
                 }
-                .padding(.bottom, 32)
+                .padding(.vertical, 16)
             }
+
             .navigationBarHidden(true)
             .task { await vm.loadDrivers() }
         }
@@ -39,8 +45,16 @@ private extension DriverListView {
     }
     
     var teamNamesInOrder: [String] {
-        groupedDrivers.keys.sorted { lhs, rhs in
-            F1Styling.teamDisplayName(for: lhs) < F1Styling.teamDisplayName(for: rhs)
+        groupedDrivers.keys.sorted { team1, team2 in
+            let points1 = vm.drivers
+                .filter { $0.teamName == team1 }
+                .reduce(0) { $0 + $1.points }
+            
+            let points2 = vm.drivers
+                .filter { $0.teamName == team2 }
+                .reduce(0) { $0 + $1.points }
+            
+            return points1 > points2 
         }
     }
     
@@ -80,3 +94,5 @@ private extension DriverListView {
         .padding(.horizontal, 12)
     }
 }
+
+

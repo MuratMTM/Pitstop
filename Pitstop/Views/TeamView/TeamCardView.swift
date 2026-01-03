@@ -5,7 +5,7 @@ struct TeamCard: View {
     
     var body: some View {
         ZStack {
-            // Gradient arka plan
+     
             LinearGradient(
                 colors: [
                     Color(hex: team.teamColor ?? "#333333"),

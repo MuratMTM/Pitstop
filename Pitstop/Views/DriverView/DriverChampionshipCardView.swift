@@ -52,7 +52,7 @@ struct DriverChampionshipCardView: View {
                     
                     Spacer()
                     
-                    // Driver Image
+        
                     AsyncImage(url: URL(string: driverChampionship.imageURL ?? "")) { phase in
                         switch phase {
                         case .success(let img):
@@ -65,8 +65,7 @@ struct DriverChampionshipCardView: View {
                     .clipShape(Circle())
                     .overlay(Circle().stroke(.white.opacity(0.4), lineWidth: 2))
                 }
-                
-                // Stats Row
+       
                 HStack(spacing: 12) {
                     statView(title: "PTS", value: "\(driverChampionship.points)")
                     statView(title: "WINS", value: "\(driverChampionship.wins)")
