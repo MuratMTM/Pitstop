@@ -16,7 +16,7 @@ struct DriverListView: View {
                             VStack(spacing: 16) {
                                 ForEach(drivers) { driver in
                                     DriverCardView(driver: driver)
-                                        .padding(.horizontal, 18)
+                                        .padding(.all, 18)
                                 }
                             }
                         }
@@ -24,7 +24,6 @@ struct DriverListView: View {
                 }
                 .padding(.bottom, 32)
             }
-            .background(Color(.systemGroupedBackground))
             .navigationBarHidden(true)
             .task { await vm.loadDrivers() }
         }
