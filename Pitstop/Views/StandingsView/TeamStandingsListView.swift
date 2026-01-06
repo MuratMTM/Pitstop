@@ -3,7 +3,7 @@ import SwiftUI
 
 struct TeamStandingsListView: View {
 
-    @StateObject var viewModel: TeamViewModel
+    @StateObject var viewModel = TeamViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -40,6 +40,3 @@ struct StandingsHeaderView: View {
     }
 }
 
-#Preview {
-    TeamStandingsListView(viewModel: TeamViewModel())
-}

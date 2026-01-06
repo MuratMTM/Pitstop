@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct DriverStandingsListView: View {
-    @StateObject var viewModel: DriverViewModel
-    
+    @StateObject var viewModel = DriverViewModel()
     var body: some View {
         
         VStack(spacing:0) {
@@ -26,6 +25,3 @@ struct DriverStandingsListView: View {
     }
 }
 
-#Preview {
-    DriverStandingsListView(viewModel: DriverViewModel())
-}
