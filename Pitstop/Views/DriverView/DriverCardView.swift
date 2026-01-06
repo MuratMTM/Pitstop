@@ -15,7 +15,7 @@ struct DriverCardView: View {
 
             cardShape
                 .fill(
-                    Color(hex: driver.teamColor ?? "#333333") // ✅ saf takım rengi
+                    Color(hex: driver.teamColor ?? "#333333")
                 )
                 .shadow(
                     color: Color(hex: driver.teamColor ?? "#333333").opacity(0.45),
@@ -26,7 +26,7 @@ struct DriverCardView: View {
                 .overlay(
                     Text(F1Styling.teamShortCode(for: driver.teamName ?? driver.driverId))
                         .font(.system(size: 72, weight: .black, design: .rounded))
-                        .foregroundColor(.white.opacity(0.08)) // ✅ beyaz watermark
+                        .foregroundColor(.white.opacity(0.08)) 
                         .rotationEffect(.degrees(-18))
                         .offset(x: 20, y: 40),
                     alignment: .bottomTrailing
@@ -34,7 +34,7 @@ struct DriverCardView: View {
 
             VStack(spacing: 14) {
 
-                // Team capsule
+             
                 HStack {
                     Text(F1Styling.teamDisplayName(for: driver.teamName ?? driver.driverId).uppercased())
                         .font(.caption2.weight(.semibold))
@@ -106,7 +106,7 @@ struct DriverCardView: View {
                             .font(.caption2)
                             .foregroundColor(.white.opacity(0.65))
 
-                        Text(driver.birthday ?? "Unknown")
+                        Text(driver.birthday?.formattedBirthday ?? "Unknown")
                             .font(.callout.weight(.semibold))
                             .foregroundColor(.white)
                             .lineLimit(1)

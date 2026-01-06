@@ -2,7 +2,7 @@ import SwiftUI
 import SafariServices
 
 // MARK: - Page
-struct NewsPageView: View {
+struct NewsListView: View {
     
     @StateObject private var viewModel = NewsViewModel()
     @State private var selectedIndex = 0
@@ -48,9 +48,6 @@ struct NewsPageView: View {
     }
 }
 
-#Preview {
-    NewsPageView()
-}
 
 // MARK: - Header
 struct PitstopHeaderView: View {

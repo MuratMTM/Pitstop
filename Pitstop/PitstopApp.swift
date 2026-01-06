@@ -5,15 +5,15 @@ import Firebase
 
 @main
 struct PitstopApp: App {
- 
+    
     init() {
-           FirebaseApp.configure()
-           print("🔥 Firebase Configured")
-       }
-
+        FirebaseApp.configure()
+        print("🔥 Firebase Configured")
+    }
+    
     var body: some Scene {
         WindowGroup {
-            DriverListView()
+            MainTabView()
         }
     }
 }

@@ -1,30 +1,30 @@
 import Foundation
 
 extension String {
-    var firebaseEncoded: String {
-        addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? self
-    }
-    
-    var prettyNewsDate: String {
-        let fmts = [
-            "EEE, dd MMM yyyy HH:mm:ss Z",
-            "EEE, dd MMM yyyy HH:mm:ss zzz",
-            "yyyy-MM-dd'T'HH:mm:ssZ",
-            "yyyy-MM-dd"
+    var formattedBirthday: String {
+        let inputFormats = [
+            "yyyy-MM-dd",
+            "dd/MM/yyyy",
+            "MM-dd-yyyy",
+            "dd-MM-yyyy",
+            "yyyy/MM/dd"
         ]
-
-        let out = DateFormatter()
-        out.locale = Locale(identifier: "en_US_POSIX")
-        out.dateFormat = "dd MMM yyyy"
-
-        for fmt in fmts {
-            let f = DateFormatter()
-            f.locale = Locale(identifier: "en_US_POSIX")
-            f.dateFormat = fmt
-            if let date = f.date(from: self) {
-                return out.string(from: date)
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "dd/MM/yyyy"
+        outputFormatter.locale = Locale(identifier: "tr_TR")
+        
+        for format in inputFormats {
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = format
+            inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+            
+            if let date = inputFormatter.date(from: self) {
+                return outputFormatter.string(from: date)
             }
         }
-        return self
+        
+        return self 
     }
 }
+
