@@ -46,33 +46,7 @@ struct NewsListView: View {
 }
 
 
-// MARK: - Header
-struct PitstopHeaderView: View {
-    private let pitStopHeader: String = "Pitstop"
-    private let pitStopFlagHeader: String = "raceFlag"
-    var body: some View {
-        VStack(spacing: 0) {
-            Color.red
-                .frame(height: UIApplication.shared.safeAreaTop)
-            
-            HStack(spacing: 12) {
-                Text(pitStopHeader)
-                    .font(.system(size: 28, weight: .heavy, design: .rounded))
-                    .foregroundColor(.white)
-                
-                Image(pitStopFlagHeader)
-                    .resizable()
-                    .frame(width: 36, height: 20)
-            }
-            .frame(height: 56)
-            .frame(maxWidth: .infinity)
-            .background(Color.red)
-        }
-        .ignoresSafeArea(.all)
-        .frame(height: Header.height)
-        .zIndex(10)
-    }
-}
+
 
 // MARK: - Feed View
 struct NewsFeedView: View {

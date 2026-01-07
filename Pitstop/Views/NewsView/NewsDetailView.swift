@@ -59,27 +59,14 @@ struct NewsDetailView: View {
                 }
             }
 
-                .overlay(alignment: .trailing) {
-                    Button(action: {
-                        showShareSheet = true
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.title2)
-                            .foregroundColor(.white)
-                            .padding(.trailing, 20)
-                    }
-                }
+                
         }
         .sheet(isPresented: $showSafari) {
             if let url = URL(string: article.url) {
                 SafariView(url: url)
             }
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let url = URL(string: article.url) {
-                ShareSheet(activityItems: [article.title, url])
-            }
-        }
+     
     }
     
     // MARK: - Hero Image
@@ -141,13 +128,3 @@ struct NewsDetailView: View {
     }
 }
 
-// MARK: - Share Sheet
-struct ShareSheet: UIViewControllerRepresentable {
-    let activityItems: [Any]
-    
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-    }
-    
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}

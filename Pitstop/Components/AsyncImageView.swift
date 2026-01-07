@@ -1,9 +1,3 @@
-//
-//  AsyncImageView.swift
-//  Pitstop
-//
-//  Created by Murat Işık on 11.12.2025.
-//
 
 import SwiftUI
 
@@ -11,19 +5,18 @@ struct AsyncImageView: View {
     let url: String
     
     var body: some View {
-        // URL'yi kullanarak görüntüyü çeker ve gösterir.
-        // SwiftUI'ın resmi çözümü olan AsyncImage'i kullanmak en temiz yoldur.
+       
         AsyncImage(url: URL(string: url)) { phase in
             switch phase {
             case .empty:
-                // Yükleniyor durumu
+            
                 ProgressView()
             case .success(let image):
-                // Başarılı yükleme
+         
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
             case .failure:
-                // Hata durumu
+       
                 Image(systemName: "photo.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
