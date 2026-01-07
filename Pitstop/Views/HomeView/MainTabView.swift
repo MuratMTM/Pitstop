@@ -3,8 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     var body: some View {
         ZStack(alignment: .top) {
-            Color(.systemBackground)
-                            .ignoresSafeArea()
+        
             VStack{
                 TabView {
                     NewsListView()
@@ -33,7 +32,7 @@ struct MainTabView: View {
                     
                 }.padding(.horizontal,0)
                 .accentColor(.red)
-            }
+            }.ignoresSafeArea(.all)
             
           
             PitstopHeaderView()

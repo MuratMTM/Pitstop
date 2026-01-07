@@ -19,4 +19,4 @@ final class CircuitService: CircuitServiceProtocol {
         
         return circuits
     }
-}
+}   

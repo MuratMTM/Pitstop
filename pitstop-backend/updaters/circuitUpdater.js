@@ -40,8 +40,8 @@ async function updateCircuits() {
     };
 
     
-  await Circuit.updateMany({}, { $set: { circuitImageUrl: null } });
-  console.log('Eski circuitImageUrl verileri temizlendi');
+//await Circuit.deleteMany({});
+//console.log('Tüm eski pist verileri silindi – yeni veriler kaydediliyor...');
 
     for (let circuit of circuits) {
       const circuitKey = circuit.circuitId;
@@ -52,12 +52,15 @@ async function updateCircuits() {
         {
          circuitId: circuit.circuitId,
           circuitName: circuit.circuitName,
-          location: circuit.city,
-          country: circuit.country,
+          country:circuit.country,
+          city: circuit.city,
           circuitLength: circuit.circuitLength,
           lapRecord: circuit.lapRecord,
           firstParticipationYear: circuit.firstParticipationYear,
           numberOfCorners: circuit.numberOfCorners,
+          fastestLapDriverId:circuit.fastestLapDriverId,
+          fastestLapTeamId:circuit.fastestLapTeamId,
+          fastestLapYear:circuit.fastestLapYear,
           url: circuit.url,
           circuitImageUrl: imageUrl
         },
