@@ -1,11 +1,10 @@
 import SwiftUI
 
 struct CircuitCardView: View {
-    let circuit: CircuitModel
+    let circuit: Circuit  // Yeni model
     
     var body: some View {
         ZStack {
-            
             RoundedRectangle(cornerRadius: 24)
                 .fill(
                     LinearGradient(
@@ -25,8 +24,6 @@ struct CircuitCardView: View {
                 )
             
             VStack(alignment: .leading, spacing: 16) {
-                
-                // ÜST: İsim + Lokasyon
                 VStack(alignment: .leading, spacing: 4) {
                     Text(circuit.circuitName)
                         .font(.title3.bold())
@@ -41,13 +38,11 @@ struct CircuitCardView: View {
                     }
                 }
                 
-                // ORTA: PİST FOTOĞRAFI (tam ortada, dikdörtgen – alana sığdırılmış)
                 ZStack {
-                    // Hafif placeholder arka plan
                     RoundedRectangle(cornerRadius: 14)
                         .fill(Color.black.opacity(0.06))
                     
-                    if let urlString = circuit.imageURL,
+                    if let urlString = circuit.circuitImageUrl,
                        let url = URL(string: urlString) {
                         AsyncImage(url: url) { phase in
                             switch phase {
@@ -70,7 +65,7 @@ struct CircuitCardView: View {
                                 Color.gray.opacity(0.3)
                             }
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 14)) // Taşanı kırp
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                     } else {
                         Image(systemName: "photo")
                             .resizable()
@@ -124,16 +119,12 @@ struct CircuitCardView: View {
                         
                         HStack {
                             Text("\(circuit.fastestLapDriverId?.uppercased() ?? "—") | \(circuit.fastestLapTeamId?.uppercased() ?? "—") |")
-                            
                                 .font(.caption2)
                                 .foregroundColor(.black.opacity(0.8))
                             
                             Text(String(circuit.fastestLapYear ?? 2025))
                                 .font(.caption2)
                                 .foregroundColor(.black.opacity(0.8))
-
-                            
-                          
                         }
                     }
                     .padding(.top, 6)
@@ -160,21 +151,24 @@ struct CircuitCardView: View {
                 .font(.caption.bold())
         }
     }
-    
-    private func capsule(text: String, color: Color) -> some View {
-        Text(text)
-            .font(.caption2.bold())
-            .foregroundColor(.white)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(
-                Capsule()
-                    .fill(color.opacity(0.85))
-            )
-    }
 }
 
-
 #Preview {
-    CircuitCardView(circuit: CircuitViewModel().circuits.first!)
+    CircuitCardView(circuit: Circuit(
+        circuitId: "monaco",
+        circuitName: "Circuit de Monaco",
+        country: "Monaco",
+        city: "Monte Carlo",
+        circuitLength: 3337,
+        lapRecord: "1:10.166",
+        firstParticipationYear: 1950,
+        numberOfCorners: 19,
+        fastestLapDriverId: "hamilton",
+        fastestLapTeamId: "mercedes",
+        fastestLapYear: 2021,
+        url: "https://en.wikipedia.org/wiki/Monaco_Grand_Prix",
+        circuitImageUrl: "https://example.com/monaco.png"
+    ))
+    .padding()
+    .background(Color.white)
 }

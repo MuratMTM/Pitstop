@@ -35,9 +35,11 @@ struct NewsDetailView: View {
                         if let summary = article.summary, !summary.isEmpty {
                             Text(summary)
                                 .font(.system(size: 17, weight: .regular))
-                                .lineSpacing(8) // Profesyonel satır aralığı
+                                .lineSpacing(8)
                                 .foregroundStyle(.primary)
                                 .multilineTextAlignment(.leading)
+                                .padding(.horizontal,6)
+                            
                         } else {
                             Text("No summary available.")
                                 .font(.system(size: 17))

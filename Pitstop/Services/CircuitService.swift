@@ -1,23 +1,22 @@
 import Foundation
 
 protocol CircuitServiceProtocol {
-    func fetchCircuits() async throws -> [CircuitModel]
+    func fetchCircuits() async throws -> [Circuit]
 }
 
 final class CircuitService: CircuitServiceProtocol {
-    
+    static let shared = CircuitService()
     private let network = NetworkService.shared
-    private let baseURL = "https://f1api.dev/api/circuits"
     
-    func fetchCircuits() async throws -> [CircuitModel] {
-        guard let url = URL(string: baseURL) else {
+    private init() {}
+    
+    func fetchCircuits() async throws -> [Circuit] {
+        guard let url = URL.apiURL(endpoint: APIConstants.Endpoints.circuits) else {
             throw NetworkError.badURL
         }
-
-        let response = try await network.fetch(CircuitResponse.self, from: url)
-        return response.circuits
+        
+        let circuits = try await network.fetch([Circuit].self, from: url)
+        
+        return circuits
     }
 }
-
-
-

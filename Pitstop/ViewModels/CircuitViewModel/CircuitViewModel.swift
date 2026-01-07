@@ -1,35 +1,36 @@
-
 import Foundation
 
 @MainActor
-class CircuitViewModel: ObservableObject {
-    
-    @Published var circuits: [CircuitModel] = []
-    @Published var isLoading: Bool = false
+final class CircuitViewModel: ObservableObject {
+    @Published var circuits: [Circuit] = []
+    @Published var isLoading = false
     @Published var errorMessage: String?
     
     private let service: CircuitServiceProtocol
-   
-  
-    init(service: CircuitServiceProtocol = CircuitService()){
+    
+    init(service: CircuitServiceProtocol = CircuitService.shared) {
         self.service = service
     }
-     
+    
     func loadCircuits() async {
         isLoading = true
         errorMessage = nil
-         
+        
         do {
-            var result = try await service.fetchCircuits()
+            let fetchedCircuits = try await service.fetchCircuits()
             
-
+            let sortedCircuits = fetchedCircuits.sorted { $0.circuitName < $1.circuitName }
             
-            self.circuits = result
-            
-        } catch  {
-            self.errorMessage = error.localizedDescription
+            self.circuits = sortedCircuits
+        } catch {
+            self.errorMessage = "Pistler yüklenemedi. Bağlantını kontrol et."
+            print("Circuit fetch error:", error.localizedDescription)
         }
         
         isLoading = false
+    }
+    
+    func refresh() async {
+        await loadCircuits()
     }
 }

@@ -10,8 +10,7 @@ struct NewsListView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .top) {
-                
+         
                 ScrollView {
                     VStack(spacing: 0) {
                         
@@ -32,9 +31,7 @@ struct NewsListView: View {
                     }
                     .padding(.top, 55)
                 }
-                
-                PitstopHeaderView()
-            }
+
             .task {
                 if viewModel.articles.isEmpty {
                     await viewModel.loadNews()

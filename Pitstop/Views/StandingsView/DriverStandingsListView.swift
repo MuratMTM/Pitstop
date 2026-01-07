@@ -5,7 +5,7 @@ struct DriverStandingsListView: View {
     var body: some View {
         
         VStack(spacing:0) {
-            PitstopHeaderView()
+           
             StandingsHeaderView(title: "DRIVER STANDİNGS")
                 .padding(.bottom,16)
             ScrollView {

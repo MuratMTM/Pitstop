@@ -9,8 +9,7 @@ struct CircuitListView: View {
                 if vm.isLoading {
                     ProgressView("Loading Circuits...")
                         .padding()
-                }
-                else if let error = vm.errorMessage {
+                } else if let error = vm.errorMessage {
                     VStack(spacing: 12) {
                         Text("An error occurred")
                             .font(.headline)
@@ -25,11 +24,10 @@ struct CircuitListView: View {
                         .padding(.top, 8)
                     }
                     .padding()
-                }
-                else {
+                } else {
                     ScrollView {
                         VStack(spacing: 20) {
-                            ForEach(vm.circuits, id: \.circuitId) { circuit in
+                            ForEach(vm.circuits) { circuit in
                                 CircuitCardView(circuit: circuit)
                             }
                         }

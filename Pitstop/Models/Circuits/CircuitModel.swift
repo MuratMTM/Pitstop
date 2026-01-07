@@ -1,14 +1,8 @@
-//
-//  CircuitModel.swift
-//  Pitstop
-//
-//  Created by Murat Işık on 18.11.2025.
-//
-
 import Foundation
 
-
-struct CircuitModel: Decodable {
+struct Circuit: Codable, Identifiable,Hashable {
+    let id = UUID()
+    
     let circuitId: String
     let circuitName: String
     let country: String
@@ -18,24 +12,18 @@ struct CircuitModel: Decodable {
     let lapRecord: String?
     let firstParticipationYear: Int?
     let numberOfCorners: Int?
-   
     
-   
     let fastestLapDriverId: String?
     let fastestLapTeamId: String?
     let fastestLapYear: Int?
     
-    let url: String
+    let url: String?
+    let circuitImageUrl: String?
     
-    var imageURL: String?
-    var circuitFlagURL: String?
+    enum CodingKeys: String, CodingKey {
+        case circuitId, circuitName, country, city
+        case circuitLength, lapRecord, firstParticipationYear, numberOfCorners
+        case fastestLapDriverId, fastestLapTeamId, fastestLapYear
+        case url, circuitImageUrl
+    }
 }
-
-struct CircuitResponse: Decodable {
-    let limit: Int
-    let offset: Int
-    let total: Int
-    let circuits: [CircuitModel]
-}
-
-

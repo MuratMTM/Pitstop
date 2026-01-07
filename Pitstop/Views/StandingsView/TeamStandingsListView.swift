@@ -4,11 +4,12 @@ import SwiftUI
 struct TeamStandingsListView: View {
 
     @StateObject var viewModel = TeamViewModel()
+    let headerTitle: String = "TEAM STANDINGS"
     
     var body: some View {
         VStack(spacing: 0) {
-            PitstopHeaderView()
-            StandingsHeaderView(title: "TEAM STANDINGS")
+         
+            StandingsHeaderView(title: headerTitle)
             
             ScrollView {
                 VStack(spacing: 8) {

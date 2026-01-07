@@ -22,11 +22,16 @@ struct MainTabView: View {
                             Label("Standings", systemImage: "trophy")
                         }
                     
-                    CircuitListView()
+                    RaceListView()
                         .tabItem {
                             Label("Races", systemImage: "flag.checkered")
                         }
-                }
+                    CircuitListView()
+                        .tabItem {
+                            Label("Circuits", systemImage: "road.lanes")
+                        }
+                    
+                }.padding(.horizontal,0)
                 .accentColor(.red)
             }
             

@@ -23,7 +23,7 @@ async function updateNews() {
     for (let item of feed.items) {
       let imageUrl = null;
 
-      // Görseli farklı yerlerden dene
+   
       if (item.enclosure && item.enclosure.url) {
         imageUrl = item.enclosure.url;
       } else if (item.media && item.media['$'] && item.media['$'].url) {

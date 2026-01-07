@@ -3,34 +3,71 @@ const Circuit = require('../models/circuit');
 
 async function updateCircuits() {
   try {
-    console.log('Pist verileri çekiliyor... (f1api.dev)');
+    console.log('Pist verileri çekiliyor...');
+    const response = await axios.get('https://f1api.dev/api/circuits?limit=100');
+    const circuits = response.data.circuits;
 
-    const response = await axios.get('https://f1api.dev/api/circuits');
-    const circuits = response.data.circuits || response.data; 
+   
+    const circuitImages = {
+      'adelaide': 'https://pitstop-backend-44xo.onrender.com/images/circuits/adelaide.png',
+      'albert_park': 'https://pitstop-backend-44xo.onrender.com/images/circuits/albert_park.png',
+      'austin': 'https://pitstop-backend-44xo.onrender.com/images/circuits/austin.png',
+      'bahrein': 'https://pitstop-backend-44xo.onrender.com/images/circuits/bahrein.png',
+      'baku': 'https://pitstop-backend-44xo.onrender.com/images/circuits/baku.png',
+      'montmelo': 'https://pitstop-backend-44xo.onrender.com/images/circuits/montmelo.png',
+      'hungaroring': 'https://pitstop-backend-44xo.onrender.com/images/circuits/hungaroring.png',
+      'imola': 'https://pitstop-backend-44xo.onrender.com/images/circuits/imola.png',
+      'interlagos': 'https://pitstop-backend-44xo.onrender.com/images/circuits/interlagos.png',
+      'istanbul': 'https://pitstop-backend-44xo.onrender.com/images/circuits/istanbul.png',
+      'jeddah': 'https://pitstop-backend-44xo.onrender.com/images/circuits/jeddah.png',
+      'vegas': 'https://pitstop-backend-44xo.onrender.com/images/circuits/vegas.png',
+      'lusail': 'https://pitstop-backend-44xo.onrender.com/images/circuits/lusail.png',
+      'marina_bay': 'https://pitstop-backend-44xo.onrender.com/images/circuits/marina_bay.png',
+      'miami': 'https://pitstop-backend-44xo.onrender.com/images/circuits/miami.png',
+      'monaco': 'https://pitstop-backend-44xo.onrender.com/images/circuits/monaco.png',
+      'monza': 'https://pitstop-backend-44xo.onrender.com/images/circuits/monza.png',
+      'mugello': 'https://pitstop-backend-44xo.onrender.com/images/circuits/mugello.png',
+      'nurburgring': 'https://pitstop-backend-44xo.onrender.com/images/circuits/nurburgring.png',
+      'red_bull_ring': 'https://pitstop-backend-44xo.onrender.com/images/circuits/red_bull_ring.png',
+      'silverstone': 'https://pitstop-backend-44xo.onrender.com/images/circuits/silverstone.png',
+      'spa': 'https://pitstop-backend-44xo.onrender.com/images/circuits/spa.png',
+      'suzuka': 'https://pitstop-backend-44xo.onrender.com/images/circuits/suzuka.png',
+      'sochi': 'https://pitstop-backend-44xo.onrender.com/images/circuits/sochi.png',
+      'portimao': 'https://pitstop-backend-44xo.onrender.com/images/circuits/portimao.png',
+      'paul_ricard': 'https://pitstop-backend-44xo.onrender.com/images/circuits/paul_ricard.png',
+      'yas_marina': 'https://pitstop-backend-44xo.onrender.com/images/circuits/yas_marina.png',
+      'zandvoort': 'https://pitstop-backend-44xo.onrender.com/images/circuits/zandvoort.png'
+    };
 
-    for (let item of circuits) {
-     
-      const layoutImageUrl = `https://media.formula1.com/image/upload/f_auto/q_auto/v1700000000/content/dam/fom-website/2018-redesign-assets/Circuit%20Maps%2016x9/${item.circuitId}_Circuit.png`;
+    
+  await Circuit.updateMany({}, { $set: { circuitImageUrl: null } });
+  console.log('Eski circuitImageUrl verileri temizlendi');
+
+    for (let circuit of circuits) {
+      const circuitKey = circuit.circuitId;
+      const imageUrl = circuitImages[circuitKey] || null;
 
       await Circuit.findOneAndUpdate(
-        { circuitId: item.circuitId },
+        { circuitId: circuit.circuitId },
         {
-          circuitId: item.circuitId,
-          circuitName: item.circuitName,
-          location: item.location,
-          country: item.country,
-          lat: item.lat,
-          lng: item.lng,
-          url: item.url,
-          layoutImageUrl: layoutImageUrl
+         circuitId: circuit.circuitId,
+          circuitName: circuit.circuitName,
+          location: circuit.city,
+          country: circuit.country,
+          circuitLength: circuit.circuitLength,
+          lapRecord: circuit.lapRecord,
+          firstParticipationYear: circuit.firstParticipationYear,
+          numberOfCorners: circuit.numberOfCorners,
+          url: circuit.url,
+          circuitImageUrl: imageUrl
         },
         { upsert: true }
       );
     }
 
-    console.log(`✅ ${circuits.length} pist başarıyla kaydedildi (layout görseli dahil)`);
+    console.log(`✅ ${circuits.length} pist başarıyla güncellendi (statik görsel dahil)`);
   } catch (error) {
-    console.error('❌ Pist verisi çekilirken hata:', error.message);
+    console.error('Pist updater hatası:', error.message);
   }
 }
 
