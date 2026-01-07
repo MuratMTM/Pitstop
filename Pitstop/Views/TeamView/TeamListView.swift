@@ -8,13 +8,7 @@ struct TeamListView: View {
             ZStack(alignment: .top) {
                 ScrollView {
                     VStack(spacing: 20) {
-                        Text("Teams")
-                            .font(.system(size: 32, weight: .bold, design: .rounded))
-                            .foregroundStyle(.primary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 20)
-                            .padding(.top,60)
-                        
+                 
                         if viewModel.isLoading {
                             Spacer()
                             
@@ -49,11 +43,11 @@ struct TeamListView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 40)
+                    .padding(.vertical, 20)
                 }
                 .ignoresSafeArea(edges: .top)
                 
-                PitstopHeaderView()
+             
             }
             .task {
                 await viewModel.loadTeams()

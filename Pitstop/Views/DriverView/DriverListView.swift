@@ -7,8 +7,7 @@ struct DriverListView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24) {
-                    headerView
-                        .padding(.horizontal, 20)
+          
 
                     ForEach(teamNamesInOrder, id: \.self) { teamName in
                         if let drivers = groupedDrivers[teamName] {
@@ -58,20 +57,6 @@ private extension DriverListView {
         }
     }
     
-    var headerView: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Formula 1")
-                .font(.headline)
-                .foregroundColor(.secondary)
-            
-            Text("2025 Drivers")
-                .font(.largeTitle.bold())
-                .foregroundColor(.primary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, 10)
-        .padding(.horizontal, 20)
-    }
     
     func teamSectionHeader(_ teamName: String) -> some View {
         let colors = F1Styling.getColors(for: teamName)

@@ -20,6 +20,7 @@ struct TeamStandingsListView: View {
         }.task {
             await viewModel.loadTeams()
         }
+        
         .ignoresSafeArea()
     }
 }
