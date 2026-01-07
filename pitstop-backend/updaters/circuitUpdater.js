@@ -4,12 +4,19 @@ const Circuit = require('../models/circuit');
 async function updateCircuits() {
   try {
     console.log('Pist verileri çekiliyor...');
-    const response = await axios.get('https://f1api.dev/api/circuits?limit=100');
+    const response = await axios.get('https://f1api.dev/api/circuits?limit=30');
     const circuits = response.data.circuits;
 
+    const currentPistIds = [ // 2025 pist listesi (web'den aldım, sen ekle/çıkar)
+      'bahrein', 'jeddah', 'albert_park', 'baku', 'miami', 'imola', 'monaco', 'portimao',
+      'montmelo', 'red_bull_ring', 'silverstone', 'hungaroring', 'spa', 'zandvoort','sochi','paul_ricard',
+      'monza', 'marina_bay', 'suzuka', 'lusail', 'austin', 'interlagos', 'vegas', 'yas_marina','istanbul','mugello','nurburgring'
+    ];
+
+    const filteredCircuits = circuits.filter(c => currentPistIds.includes(c.circuitId) && c.lapRecord); 
    
     const circuitImages = {
-      'adelaide': 'https://pitstop-backend-44xo.onrender.com/images/circuits/adelaide.png',
+    
       'albert_park': 'https://pitstop-backend-44xo.onrender.com/images/circuits/albert_park.png',
       'austin': 'https://pitstop-backend-44xo.onrender.com/images/circuits/austin.png',
       'bahrein': 'https://pitstop-backend-44xo.onrender.com/images/circuits/bahrein.png',
@@ -40,12 +47,14 @@ async function updateCircuits() {
     };
 
     
-//await Circuit.deleteMany({});
-//console.log('Tüm eski pist verileri silindi – yeni veriler kaydediliyor...');
+await Circuit.deleteMany({});
+console.log('Tüm eski pist verileri silindi – yeni veriler kaydediliyor...');
 
     for (let circuit of circuits) {
       const circuitKey = circuit.circuitId;
       const imageUrl = circuitImages[circuitKey] || null;
+
+      if (!imageUrl) continue;
 
       await Circuit.findOneAndUpdate(
         { circuitId: circuit.circuitId },
@@ -54,13 +63,13 @@ async function updateCircuits() {
           circuitName: circuit.circuitName,
           country:circuit.country,
           city: circuit.city,
-          circuitLength: circuit.circuitLength,
-          lapRecord: circuit.lapRecord,
-          firstParticipationYear: circuit.firstParticipationYear,
-          numberOfCorners: circuit.numberOfCorners,
-          fastestLapDriverId:circuit.fastestLapDriverId,
-          fastestLapTeamId:circuit.fastestLapTeamId,
-          fastestLapYear:circuit.fastestLapYear,
+          circuitLength: circuit.circuitLength || null,
+          lapRecord: circuit.lapRecord || null,
+          firstParticipationYear: circuit.firstParticipationYear || null,
+          numberOfCorners: circuit.numberOfCorners || null,
+          fastestLapDriverId: circuit.fastestLapDriverId || null,
+          fastestLapTeamId: circuit.fastestLapTeamId || null,
+          fastestLapYear: circuit.fastestLapYear || null,
           url: circuit.url,
           circuitImageUrl: imageUrl
         },

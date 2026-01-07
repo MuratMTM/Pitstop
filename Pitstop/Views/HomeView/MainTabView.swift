@@ -4,7 +4,7 @@ struct MainTabView: View {
     var body: some View {
         ZStack(alignment: .top) {
         
-            VStack{
+            VStack(alignment: .leading, spacing: 0){
                 TabView {
                     NewsListView()
                         .tabItem {
@@ -32,11 +32,11 @@ struct MainTabView: View {
                     
                 }.padding(.horizontal,0)
                 .accentColor(.red)
-            }.ignoresSafeArea(.all)
+            }.ignoresSafeArea(edges: .top)
             
           
             PitstopHeaderView()
-        }.navigationBarHidden(true)
+        }
     
     }
 }

@@ -38,7 +38,7 @@ struct NewsDetailView: View {
                                 .lineSpacing(8)
                                 .foregroundStyle(.primary)
                                 .multilineTextAlignment(.leading)
-                                .padding(.horizontal,6)
+                                .padding(.horizontal,20)
                             
                         } else {
                             Text("No summary available.")
@@ -59,7 +59,7 @@ struct NewsDetailView: View {
             }
             .ignoresSafeArea(edges: .top)
             
-            PitstopHeaderView()
+      
                 .overlay(alignment: .trailing) {
                     Button(action: {
                         showShareSheet = true
