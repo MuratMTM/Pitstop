@@ -9,11 +9,7 @@ struct GridView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            
-            Color(.systemBackground)
-                .ignoresSafeArea()
-            
+     
             VStack(spacing: 0) {
                 Color.clear
                     .frame(height: 75)
@@ -33,9 +29,6 @@ struct GridView: View {
                     TeamListView()
                 }
             }
-            PitstopHeaderView()
-        }
-        .navigationBarHidden(true)
     }
 }
 
