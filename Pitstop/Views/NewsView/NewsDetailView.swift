@@ -10,17 +10,17 @@ struct NewsDetailView: View {
     var body: some View {
         ZStack(alignment: .top) {
             ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading) {
                     
                     heroImage
                         .frame(height: 320)
-                        .padding(.top, 118)
+                       
                     
                     VStack(alignment: .leading, spacing: 20) {
                         
                         Text(article.title)
                             .font(.system(size: 26, weight: .bold, design: .rounded))
-                            .lineLimit(nil)
+                            .padding(.horizontal,30)
                             .fixedSize(horizontal: false, vertical: true)
                         
                         HStack(spacing: 8) {
@@ -31,6 +31,7 @@ struct NewsDetailView: View {
                         }
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+                        .padding(.horizontal,30)
                         
                         if let summary = article.summary, !summary.isEmpty {
                             Text(summary)
@@ -38,7 +39,7 @@ struct NewsDetailView: View {
                                 .lineSpacing(8)
                                 .foregroundStyle(.primary)
                                 .multilineTextAlignment(.leading)
-                                .padding(.horizontal,20)
+                                .padding(.horizontal,30)
                             
                         } else {
                             Text("No summary available.")
@@ -48,7 +49,7 @@ struct NewsDetailView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 10)
+                    
                     
                     readFullButton
                         .padding(.top, 30)
@@ -57,9 +58,7 @@ struct NewsDetailView: View {
                     Spacer(minLength: 100)
                 }
             }
-            .ignoresSafeArea(edges: .top)
-            
-      
+
                 .overlay(alignment: .trailing) {
                     Button(action: {
                         showShareSheet = true
