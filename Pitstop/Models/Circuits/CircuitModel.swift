@@ -1,6 +1,6 @@
 import Foundation
 
-struct Circuit: Codable, Identifiable,Hashable {
+struct Circuit: Codable,Identifiable,Hashable {
     let id = UUID()
     
     let circuitId: String
@@ -19,11 +19,12 @@ struct Circuit: Codable, Identifiable,Hashable {
     
     let url: String?
     let circuitImageUrl: String?
+    let flagUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case circuitId, circuitName, country, city
         case circuitLength, lapRecord, firstParticipationYear, numberOfCorners
         case fastestLapDriverId, fastestLapTeamId, fastestLapYear
-        case url, circuitImageUrl
+        case url, circuitImageUrl,flagUrl
     }
 }

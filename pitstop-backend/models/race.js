@@ -60,7 +60,9 @@ const raceSchema = new mongoose.Schema({
     fastestLapDriverId: { type: String },
     fastestLapTeamId: { type: String },
     fastestLapYear: { type: Number },
-    url: { type: String }
+    url: { type: String },
+    flagUrl: { type: String, default: null }
+
   },
   winner: {
     driverId: { type: String },
@@ -81,7 +83,37 @@ const raceSchema = new mongoose.Schema({
     driversChampionships: { type: Number },
     url: { type: String }
   },
+
+  podiumTop3: [
+  {
+    position: { type: Number, required: true },  
+    time: { type: String, default: null },       
+    points: { type: Number, default: null },
+
+    driver: {
+      driverId: { type: String, default: null },
+      shortName: { type: String, default: null },
+      name: { type: String, default: null },
+      surname: { type: String, default: null }
+    },
+
+    team: {
+      teamId: { type: String, default: null },
+      teamName: { type: String, default: null }
+    }
+  }
+],
+
   results: [resultSchema] 
 }, { timestamps: true });
+
+const { resolveFlagUrl } = require('../utils/flagResolver'); 
+
+raceSchema.pre('save', function(next) {
+  if (this.circuit) {
+    this.circuit.flagUrl = resolveFlagUrl(this.circuit.country);
+  }
+  next();
+});
 
 module.exports = mongoose.model('Race', raceSchema);

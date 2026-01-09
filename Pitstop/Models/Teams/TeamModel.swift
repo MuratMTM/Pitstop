@@ -1,6 +1,6 @@
 import Foundation
 
-struct Team: Decodable, Identifiable {
+struct Team: Codable, Identifiable {
     let id = UUID()
     let teamId: String
     let teamName: String
