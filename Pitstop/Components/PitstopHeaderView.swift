@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 
 struct PitstopHeaderView: View {
@@ -7,37 +5,31 @@ struct PitstopHeaderView: View {
     private let pitStopFlagHeader: String = "raceFlag"
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Safe Area için üst dolgu (Çentiğin arkası)
-            Color.red
-                .frame(height: getSafeAreaTop())
-            
-            // Header İçeriği
-            HStack(spacing: 12) {
-                Text(pitStopHeader)
-                    .font(.system(size: 28, weight: .heavy, design: .rounded))
-                    .foregroundColor(.white)
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                // Çentik + Status Bar yüksekliği (dinamik)
+                Color.red
+                    .frame(height: geometry.safeAreaInsets.top)
                 
-                Image(pitStopFlagHeader)
-                    .resizable()
-                    .scaledToFit() // Oranı korumak için
-                    .frame(width: 36, height: 20)
+                // Header İçeriği
+                HStack(spacing: 12) {
+                    Text(pitStopHeader)
+                        .font(.system(size: min(geometry.size.width * 0.08, 32), weight: .heavy, design: .rounded)) // Ekran boyutuna göre ölçekle
+                        .foregroundColor(.white)
+                    
+                    Image(pitStopFlagHeader)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: min(geometry.size.width * 0.1, 36), height: min(geometry.size.width * 0.06, 20))
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: min(geometry.size.width * 0.15, 60))
+                .background(Color.red)
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 60) // İçerik yüksekliği (Toplam 110 olması için ayarlanabilir)
-            .background(Color.red)
-            
-   
         }
+        .frame(height: 110) // Toplam header yüksekliği (dinamik)
+        .background(Color.red)
         .zIndex(10)
-    }
-
-    // Cihazın Safe Area değerini güvenli bir şekilde almak için fonksiyon
-    private func getSafeAreaTop() -> CGFloat {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        let window = windowScene?.windows.first
-        return window?.safeAreaInsets.top ?? 0
     }
 }
 
