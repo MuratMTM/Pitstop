@@ -36,7 +36,7 @@ private extension RaceCardView {
     }
 
     var title: some View {
-        Text(race.raceName.uppercased())
+        Text((race.raceName ?? "No Race Name").uppercased())
             .font(.system(size: 20, weight: .black, design: .rounded))
             .lineLimit(3)
             .minimumScaleFactor(0.9)

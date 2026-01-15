@@ -23,13 +23,13 @@ struct RaceListView: View {
                         .padding(.horizontal, 16)
                     }
 
-                    // Content
+             
                     LazyVStack(spacing: 14) {
-                        ForEach(viewModel.races.sorted(by: { $0.round < $1.round })) { race in
+                        ForEach(viewModel.races.sorted(by: { ($0.round ?? 999) < ($1.round ?? 999)})) { race in
                             RaceCardView(race: race)
                         }
 
-                        // Empty state
+                
                         if !viewModel.isLoading && viewModel.races.isEmpty && viewModel.errorMessage == nil {
                             EmptyStateView()
                                 .padding(.top, 24)
