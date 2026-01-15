@@ -12,6 +12,7 @@ struct Circuit: Codable,Identifiable,Hashable {
     let lapRecord: String?
     let firstParticipationYear: Int?
     let numberOfCorners: Int?
+    let corners: Int?
     
     let fastestLapDriverId: String?
     let fastestLapTeamId: String?
@@ -23,7 +24,7 @@ struct Circuit: Codable,Identifiable,Hashable {
     
     enum CodingKeys: String, CodingKey {
         case circuitId, circuitName, country, city
-        case circuitLength, lapRecord, firstParticipationYear, numberOfCorners
+        case circuitLength, lapRecord, firstParticipationYear, numberOfCorners,corners
         case fastestLapDriverId, fastestLapTeamId, fastestLapYear
         case url, circuitImageUrl,flagUrl
     }

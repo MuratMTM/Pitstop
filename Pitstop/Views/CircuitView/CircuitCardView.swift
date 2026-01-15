@@ -153,22 +153,3 @@ struct CircuitCardView: View {
     }
 }
 
-#Preview {
-    CircuitCardView(circuit: Circuit(
-        circuitId: "monaco",
-        circuitName: "Circuit de Monaco",
-        country: "Monaco",
-        city: "Monte Carlo",
-        circuitLength: 3337,
-        lapRecord: "1:10.166",
-        firstParticipationYear: 1950,
-        numberOfCorners: 19,
-        fastestLapDriverId: "hamilton",
-        fastestLapTeamId: "mercedes",
-        fastestLapYear: 2021,
-        url: "https://en.wikipedia.org/wiki/Monaco_Grand_Prix",
-        circuitImageUrl: "https://example.com/monaco.png"
-    ))
-    .padding()
-    .background(Color.white)
-}
