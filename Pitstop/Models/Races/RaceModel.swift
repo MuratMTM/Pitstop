@@ -1,6 +1,6 @@
 import Foundation
 
-struct Race: Codable, Identifiable {
+struct Race: Codable, Identifiable, Hashable {
     let id = UUID()
     
     let raceId: String?
@@ -19,13 +19,20 @@ struct Race: Codable, Identifiable {
     let podiumTop3: [PodiumItem]?
     let results: [RaceResult]?
     
+    func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+        
+        static func == (lhs: Race, rhs: Race) -> Bool {
+            lhs.id == rhs.id
+        }
+    
     enum CodingKeys: String, CodingKey {
         case raceId, championshipId, raceName, round, laps, url
         case schedule, fastLap, circuit, winner, teamWinner
         case podiumTop3, results
     }
 }
-
 
 struct Schedule: Codable {
     let race: EventTime?
@@ -42,13 +49,11 @@ struct EventTime: Codable {
     let time: String?
 }
 
-
 struct FastLap: Codable {
     let fastLap: String?
     let fastLapDriverId: String?
     let fastLapTeamId: String?
 }
-
 
 struct CircuitInfo: Codable {
     let circuitId: String?
@@ -78,7 +83,7 @@ struct RaceDriverInfo: Codable {
     let url: String?
 }
 
-
+// Race'e özel team
 struct RaceTeamInfo: Codable {
     let teamId: String?
     let teamName: String?
@@ -89,10 +94,10 @@ struct RaceTeamInfo: Codable {
     let url: String?
 }
 
-
+// Podium Item
 struct PodiumItem: Codable, Identifiable {
     var id: UUID { UUID() }
-    let position: Int
+    let position: Int?
     let time: String?
     let points: Int?
     let driver: PodiumDriver?
@@ -111,9 +116,9 @@ struct PodiumTeam: Codable {
     let teamName: String?
 }
 
-
+// Race Result
 struct RaceResult: Codable, Identifiable {
-    let id = UUID()
+    var id: UUID { UUID() }
     
     let position: String?
     let points: Int?
@@ -122,25 +127,6 @@ struct RaceResult: Codable, Identifiable {
     let fastLap: String?
     let retired: String?
     
-    let driver: Driver?
-    let team: Team?
-    
-    enum CodingKeys: String, CodingKey {
-        case position, points, grid, time, fastLap, retired
-        case driver, team
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        position = try container.decodeIfPresent(String.self, forKey: .position)
-        points = try container.decodeIfPresent(Int.self, forKey: .points)
-        grid = try container.decodeIfPresent(String.self, forKey: .grid)
-        time = try container.decodeIfPresent(String.self, forKey: .time)
-        fastLap = try container.decodeIfPresent(String.self, forKey: .fastLap)
-        retired = try container.decodeIfPresent(String.self, forKey: .retired)
-        driver = try container.decodeIfPresent(Driver.self, forKey: .driver)
-        team = try container.decodeIfPresent(Team.self, forKey: .team)
-        
-    }
+    let driver: RaceDriverInfo?
+    let team: RaceTeamInfo?
 }

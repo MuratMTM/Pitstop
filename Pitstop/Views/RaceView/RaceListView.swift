@@ -1,98 +1,49 @@
 import SwiftUI
 
 struct RaceListView: View {
-    @StateObject private var viewModel = RaceViewModel()
-
+    @StateObject private var vm = RaceViewModel()
+    @State private var selectedRace: Race?
+    
     var body: some View {
-        ZStack {
-            Color(.systemGroupedBackground).ignoresSafeArea()
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 14) {
-
-                    Text("F1 Yarış Sonuçları")
-                        .font(.system(size: 34, weight: .black, design: .rounded))
-                        .padding(.top, 10)
-                        .padding(.horizontal, 16)
-
-                    // Error (üstte göster + retry)
-                    if let error = viewModel.errorMessage {
-                        ErrorBanner(message: error) {
-                            Task { await viewModel.loadRaceCalendar() }
+        NavigationStack {
+            Group {
+                if vm.isLoading {
+                    ProgressView("Yarış takvimi yükleniyor...")
+                        .padding()
+                } else if let error = vm.errorMessage {
+                    VStack(spacing: 12) {
+                        Text("Bir hata oluştu")
+                            .font(.headline)
+                        Text(error)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                        Button("Tekrar Dene") {
+                            Task { await vm.loadRaceCalendar() }
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
                     }
-
-             
-                    LazyVStack(spacing: 14) {
-                        ForEach(viewModel.races.sorted(by: { ($0.round ?? 999) < ($1.round ?? 999)})) { race in
-                            RaceCardView(race: race)
+                    .padding()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 14) {
+                            ForEach(vm.races) { race in
+                                RaceCardView(race: race) {
+                                    selectedRace = race  // ← onTap closure'ı burada
+                                }
+                            }
                         }
-
-                
-                        if !viewModel.isLoading && viewModel.races.isEmpty && viewModel.errorMessage == nil {
-                            EmptyStateView()
-                                .padding(.top, 24)
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 24)
-
-                 
-                    if viewModel.isLoading && viewModel.races.isEmpty {
-                        ProgressView()
-                            .frame(maxWidth: .infinity)
-                            .padding(.top, 20)
+                        .padding(.vertical, 20)
                     }
                 }
             }
-            .refreshable {
-                await viewModel.loadRaceCalendar()
+            .navigationTitle("F1 Yarış Takvimi")
+            .navigationBarTitleDisplayMode(.large)
+            .task {
+                await vm.loadRaceCalendar()
+            }
+            .navigationDestination(item: $selectedRace) { race in
+                RaceDetailView(race: race)
             }
         }
-        .task {
-            await viewModel.loadRaceCalendar()
-        }
-    }
-}
-
-// MARK: - Small UI
-private struct ErrorBanner: View {
-    let message: String
-    let retry: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
-
-                Text(message)
-                    .font(.callout.weight(.semibold))
-                    .foregroundStyle(.secondary)
-
-                Spacer()
-
-                Button("Tekrar Dene", action: retry)
-                    .font(.caption.weight(.bold))
-            }
-        }
-        .padding(12)
-        .background(.background, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 6)
-    }
-}
-
-private struct EmptyStateView: View {
-    var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "calendar")
-                .font(.system(size: 28))
-                .foregroundStyle(.secondary)
-            Text("Henüz yarış bulunamadı.")
-                .font(.callout.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
     }
 }

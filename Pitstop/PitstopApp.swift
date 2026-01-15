@@ -8,7 +8,7 @@ struct PitstopApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RaceListView()
+            MainTabView()
         }
     }
 }
