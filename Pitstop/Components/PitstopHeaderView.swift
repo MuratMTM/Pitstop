@@ -7,11 +7,11 @@ struct PitstopHeaderView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                // Çentik + Status Bar yüksekliği (dinamik)
+               
                 Color.red
                     .frame(height: geometry.safeAreaInsets.top)
                 
-                // Header İçeriği
+               Spacer()
                 HStack(spacing: 12) {
                     Text(pitStopHeader)
                         .font(.system(size: min(geometry.size.width * 0.08, 32), weight: .heavy, design: .rounded)) // Ekran boyutuna göre ölçekle

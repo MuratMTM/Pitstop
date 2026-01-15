@@ -1,14 +1,18 @@
 import Foundation
 
 struct APIConstants {
-    static let baseURL = "https://pitstop-backend-44xo.onrender.com/api"
+    static let baseURL = "https://pitstop-backend-44xo.onrender.com"
     
     struct Endpoints {
-        static let drivers = "/drivers"
-        static let teams = "/teams"
-        static let circuits = "/circuits"
-        static let races = "/races"
-        static let raceDetail = "/races/"
-        static let news = "/news"
+        static let drivers = "/api/drivers"
+        static let teams = "/api/teams"
+        static let circuits = "/api/circuits"
+        static let races = "/api/races"
+        static let news = "/api/news"
+        
+      
+        static func raceDetail(year: Int, round: Int) -> String {
+            return "/api/races/\(year)/\(round)"
+        }
     }
 }

@@ -14,7 +14,7 @@ final class RaceService: RaceServiceProtocol {
     
  
     func fetchRaceCalendar() async throws -> [Race] {
-        guard let url = URL.apiURL(endpoint: "api/races") else {
+        guard let url = URL.apiURL(endpoint: APIConstants.Endpoints.races) else {
             throw NetworkError.badURL
         }
         

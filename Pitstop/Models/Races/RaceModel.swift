@@ -91,7 +91,7 @@ struct RaceTeamInfo: Codable {
 
 
 struct PodiumItem: Codable, Identifiable {
-    let id = UUID()
+    var id: UUID { UUID() }
     let position: Int
     let time: String?
     let points: Int?

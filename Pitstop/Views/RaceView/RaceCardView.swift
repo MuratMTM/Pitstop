@@ -21,7 +21,7 @@ private extension RaceCardView {
 
     var topBar: some View {
         HStack(spacing: 8) {
-            Text("ROUND \(race.round)")
+            Text("ROUND \(race.round ?? 0)")
                 .font(.caption2.weight(.semibold))
                 .foregroundStyle(.secondary)
 
