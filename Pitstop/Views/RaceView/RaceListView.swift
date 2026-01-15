@@ -38,7 +38,7 @@ struct RaceListView: View {
                     .padding(.horizontal, 16)
                     .padding(.bottom, 24)
 
-                    // İlk yükleme: data yokken spinner
+                 
                     if viewModel.isLoading && viewModel.races.isEmpty {
                         ProgressView()
                             .frame(maxWidth: .infinity)

@@ -10,10 +10,17 @@ enum NetworkError: Error {
 
 final class NetworkService {
     static let shared = NetworkService()
+    private let session: URLSession
     
-    private init() {}
+    private init() {
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 120.0
+            config.timeoutIntervalForResource = 120.0
+            session = URLSession(configuration: config)
+        }
     
     func fetch<T: Decodable>(_ type: T.Type, from url:URL) async throws -> T {
+        print("🔗 Request: \(url.absoluteString)")
         let (data,response) = try await URLSession.shared.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse,
