@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MainTabView: View {
     var body: some View {
-        ZStack(alignment: .top) {
+        RootLayout{
             TabView {
                 NewsListView()
                     .tabItem { Label("News", systemImage: "newspaper") }
@@ -20,10 +20,10 @@ struct MainTabView: View {
                     .tabItem { Label("Circuits", systemImage: "road.lanes") }
             }
             .accentColor(.red)
+            .ignoresSafeArea(edges: .top)
             
   
-            PitstopHeaderView()
-                .ignoresSafeArea(edges: .top)
+        
         }
     }
 }

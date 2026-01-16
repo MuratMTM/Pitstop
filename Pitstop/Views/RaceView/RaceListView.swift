@@ -28,7 +28,7 @@ struct RaceListView: View {
                         LazyVStack(spacing: 14) {
                             ForEach(vm.races) { race in
                                 RaceCardView(race: race) {
-                                    selectedRace = race  // ← onTap closure'ı burada
+                                    selectedRace = race
                                 }
                             }
                         }

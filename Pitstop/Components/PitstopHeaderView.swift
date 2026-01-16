@@ -1,37 +1,32 @@
 import SwiftUI
 
 struct PitstopHeaderView: View {
-    private let pitStopHeader: String = "Pitstop"
-    private let pitStopFlagHeader: String = "raceFlag"
-    
+    private let title = "Pitstop"
+    private let flagImage = "raceFlag"
+
     var body: some View {
-        GeometryReader { geometry in
-            VStack(spacing: 0) {
-               
-                Color.red
-                    .frame(height: geometry.safeAreaInsets.top)
-                
-               Spacer()
-                HStack(spacing: 12) {
-                    Text(pitStopHeader)
-                        .font(.system(size: min(geometry.size.width * 0.08, 32), weight: .heavy, design: .rounded)) // Ekran boyutuna göre ölçekle
-                        .foregroundColor(.white)
-                    
-                    Image(pitStopFlagHeader)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: min(geometry.size.width * 0.1, 36), height: min(geometry.size.width * 0.06, 20))
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: min(geometry.size.width * 0.15, 60))
-                .background(Color.red)
-            }
+        HStack(spacing: 12) {
+            Text(title)
+                .font(.title2.weight(.heavy))
+                    .fontDesign(.rounded)
+
+
+                .foregroundColor(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+
+            Image(flagImage)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 36, height: 20)
         }
-        .frame(height: 110) // Toplam header yüksekliği (dinamik)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity)
         .background(Color.red)
-        .zIndex(10)
     }
 }
+
 
 #Preview {
     PitstopHeaderView()
