@@ -5,7 +5,6 @@ struct RaceListView: View {
     @State private var selectedRace: Race?
     
     var body: some View {
-        NavigationStack {
             Group {
                 if vm.isLoading {
                     ProgressView("Yarış takvimi yükleniyor...")
@@ -44,6 +43,6 @@ struct RaceListView: View {
             .navigationDestination(item: $selectedRace) { race in
                 RaceDetailView(race: race)
             }
-        }
+        
     }
 }
